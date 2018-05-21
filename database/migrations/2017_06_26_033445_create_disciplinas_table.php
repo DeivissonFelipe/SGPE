@@ -14,6 +14,7 @@ class CreateDisciplinasTable extends Migration
     public function up()
     {
         Schema::create('disciplinas', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('codigo', 10)->unique();
             $table->string('nome', 100);
@@ -23,9 +24,6 @@ class CreateDisciplinasTable extends Migration
             $table->string('chsemanalt')->nullable();
             $table->integer('departamento_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('departamento_id')->references('id')
-            ->on('departamentos')->onDelete('cascade');
         });
     }
 

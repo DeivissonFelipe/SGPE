@@ -28,10 +28,7 @@ class CreatePlanosTable extends Migration
             $table->text('observacoes')->nullable();
             $table->text('bibliografiab')->nullable();
             $table->text('bibliografiac')->nullable();
-            $table->timestamps();
-
-            $table->foreign('turma_id')->references('id')
-            ->on('turmas')->onDelete('cascade');
+            $table->timestamps(); 
         });
     }
 

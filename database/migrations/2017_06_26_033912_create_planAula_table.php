@@ -21,9 +21,6 @@ class CreatePlanAulaTable extends Migration
             $table->string('conteudo');
             $table->integer('plano_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('plano_id')->references('id')
-            ->on('planos')->onDelete('cascade');
         });
     }
 

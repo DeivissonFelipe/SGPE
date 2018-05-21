@@ -20,9 +20,6 @@ class CreateHorariosTable extends Migration
             $table->string('fim', 45);
             $table->integer('plano_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('plano_id')->references('id')
-            ->on('planos')->onDelete('cascade');
         });
     }
 

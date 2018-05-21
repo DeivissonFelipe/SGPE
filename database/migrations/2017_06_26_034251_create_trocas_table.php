@@ -19,9 +19,6 @@ class CreateTrocasTable extends Migration
             $table->string('substituicao', 20);
             $table->integer('semestre_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('semestre_id')->references('id')
-            ->on('semestres')->onDelete('cascade');
         });
     }
 

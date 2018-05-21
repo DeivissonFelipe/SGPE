@@ -20,9 +20,6 @@ class CreatePlanUnidTable extends Migration
             $table->string('descricao');
             $table->integer('plano_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('plano_id')->references('id')
-            ->on('planos')->onDelete('cascade');
         });
     }
 

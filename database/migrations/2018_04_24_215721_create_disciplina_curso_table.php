@@ -14,17 +14,10 @@ class CreateDisciplinaCursoTable extends Migration
     public function up()
     {
         Schema::create('disciplina_curso', function (Blueprint $table) {
- 
             $table->increments('id');
             $table->timestamps();
-            $table->integer('disciplina_id');
-            $table->integer('curso_id');
-
-            $table->foreign('disciplina_id')->references('id')
-            ->on('disciplinas')->onDelete('cascade');
-
-            $table->foreign('curso_id')->references('id')
-            ->on('cursos')->onDelete('cascade');
+            $table->integer('disciplina_id')->unsigned();
+            $table->integer('curso_id')->unsigned();
         });
     }
 

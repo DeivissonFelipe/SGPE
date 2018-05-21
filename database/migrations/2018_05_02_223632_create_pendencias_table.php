@@ -13,16 +13,11 @@ class CreatePendenciasTable extends Migration
      */
     public function up()
     {
-         Schema::create('pendencias', function (Blueprint $table) {
- 
+        Schema::create('pendencias', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('plano_id');
+            $table->integer('plano_id')->unsigned();
             $table->text('pendencia');
-
-            $table->foreign('plano_id')->references('id')
-            ->on('planos')->onDelete('cascade');
- 
         });
     }
 

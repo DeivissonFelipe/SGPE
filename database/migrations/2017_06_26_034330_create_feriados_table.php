@@ -18,9 +18,6 @@ class CreateFeriadosTable extends Migration
             $table->date('data')->unique();
             $table->integer('semestre_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('semestre_id')->references('id')
-            ->on('semestres')->onDelete('cascade');
         });
     }
 
