@@ -76,17 +76,17 @@
 						
 						<div class="form-group col-sm-4">
 							<label for="name">CHS</label>
-							<input type="number" class="form-control" name="chsemestral" id="chsemestral" placeholder="Horas" data-toggle="tooltip" title="Carga Horária Semestral"/>
+							<input type="number" class="form-control" name="chsemestral" id="chsemestral" placeholder="Horas" data-toggle="tooltip" title="Carga Horária Semestral" value="{{$disciplina->chsemestral}}"/>
 						</div><!-- end form-group -->
 
 						<div class="form-group col-sm-4">
 							<label for="name">CH semanal teórica</label>
-							<input type="number" class="form-control" name="chsemanalp" id="chsemanalp" placeholder="Horas/Aula" data-toggle="tooltip" title="Carga Horária Semanal Teórica"/>
+							<input type="number" class="form-control" name="chsemanalp" id="chsemanalp" placeholder="Horas/Aula" data-toggle="tooltip" title="Carga Horária Semanal Teórica" value="{{$disciplina->chsemanalt}}"/>
 						</div><!-- end form-group -->
 
 						<div class="form-group col-sm-4">
 							<label for="name">CH semanal prática</label>
-							<input type="number" class="form-control" name="chsemanalt" id="chsemanalt" placeholder="Horas/Aula"  data-toggle="tooltip" title="Carga Horária Semanal Prática"/>
+							<input type="number" class="form-control" name="chsemanalt" id="chsemanalt" placeholder="Horas/Aula"  data-toggle="tooltip" title="Carga Horária Semanal Prática" value="{{$disciplina->chsemanalp}}"/>
 						</div><!-- end form-group -->
 
 						<div class="form-group">

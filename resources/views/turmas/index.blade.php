@@ -15,6 +15,14 @@
 
 @endsection
 
+@push('javascript')
+<script>
+	$(function () {
+		$('[data-tt="tooltip"]').tooltip()
+	});
+</script>
+@endpush
+
 @section('content')
 	<div class='row'>
         <div class='col-xs-12 col-sm-12 col-md-8 col-md-offset-2'>
@@ -57,12 +65,12 @@
 									</td>
 
 									@can('owner', $t)
-										<td><a href="/turmas/{{$t->id}}/edit" class="btn  btn-ufop"><i class="fa fa-edit"></i> Editar</a></td>
+										<td><a href="/turmas/{{$t->id}}/edit" class="btn btn-ufop" data-tt="tooltip" title="Editar"><i class="fa fa-edit"></i></a></td>
 										<td>
 											<form method="post" action="/turmas/{{$t->id}}">
 												{{ method_field('DELETE') }}
 												{{ csrf_field() }}
-												<button class="confirm_delete btn btn-ufop " data-toggle="modal" data-target="#confirm" type="button"><i class="fa fa-trash"></i> Apagar</buttom>
+												<button class="confirm_delete btn btn-ufop " data-toggle="modal" data-target="#confirm" type="button" data-tt="tooltip" title="Excluir"><i class="fa fa-trash"></i></buttom>
 											</form>
 										</td>
 
