@@ -15,19 +15,20 @@ class CursoController extends Controller
     
     public function create(){
     	return view('cursos.create');
-    }
+	}
+	
 	public function store(CursoRequest $request){
 		Curso::create($request->all());
         session()->flash('info', 'Curso inserido com sucesso!');
         return redirect('/cursos');
 	}
 	public function edit($id){
-		$curso = Curso::find($id);
+		$curso = Curso::findOrFail($id);
         return view('cursos.edit')
             ->with('curso', $curso);
 	}
 	public function update(UpdateCursoRequest $request, $id){
-		$curso = Curso::find($id);
+		$curso = Curso::findOrFail($id);
         $curso->nome = $request->nome;
         $curso->sigla = $request->sigla;
         
@@ -36,7 +37,7 @@ class CursoController extends Controller
         return redirect('/cursos');
 	}
 	public function destroy($id){
-		$curso = Curso::find($id);
+		$curso = Curso::findOrFail($id);
 		if(count($curso->disciplinas()->get())>0){
 			return back()->with('error', 'Exclusão do Curso Falhou! Há alguma disciplina vinculada à este curso.');
 		}elseif($curso->turmas()->get()){

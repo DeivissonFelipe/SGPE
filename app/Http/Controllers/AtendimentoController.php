@@ -10,12 +10,12 @@ use App\Http\Requests\AtendimentoRequest;
 class AtendimentoController extends Controller
 {  
 	public function atendimento($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.atendimento')->with('plano', $plano);
 	}
 
 	public function store(AtendimentoRequest $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$atendimento = new Atendimento;
 
 		$atendimento->dia = $request->dia;
@@ -35,8 +35,8 @@ class AtendimentoController extends Controller
 	}
 
 	public function update(AtendimentoRequest $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$atendimento = Atendimento::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$atendimento = Atendimento::findOrFail($id);
 		$this->authorize('crud', $atendimento);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -54,7 +54,7 @@ class AtendimentoController extends Controller
 	}
 
 	public function destroy(Request $request, $id){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$atendimento = Atendimento::findOrFail($id);
 
 		$this->authorize('crud', $atendimento);

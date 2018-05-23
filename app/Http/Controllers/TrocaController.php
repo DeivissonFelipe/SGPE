@@ -32,12 +32,9 @@ class TrocaController extends Controller
 		session()->flash('info', 'Substituição de dia letivo registrada com sucesso!');
 		return redirect('/trocas');
 	}
-	public function show($id){
-		$troca = Troca::find($id);
-		return view('trocas.show')->with('troca', $troca);
-	}
+	
 	public function edit($id){
-		$troca = Troca::find($id);
+		$troca = Troca::findOrFail($id);
 		$semestres = Semestre::orderBy('inicio','desc')->get();
 		$dias = ['Segunda-Feira','Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira'];
 		$diasNaoLetivos = array();
@@ -50,7 +47,7 @@ class TrocaController extends Controller
 		return view('trocas.edit')->with(compact('troca','dias', 'semestres','diasNaoLetivos'));
 	}
 	public function update(UpdateTrocaRequest $request, $id){
-		$troca = Troca::find($id);
+		$troca = Troca::findOrFail($id);
 		$troca->dia = $request->dia;
 		$troca->substituicao = $request->substituicao;
 		$troca->semestre_id = $request->semestre_id;

@@ -10,7 +10,7 @@ use App\Http\Requests\PlanUnidRequest;
 class PlanejamentoUnidadeController extends Controller{
 
     public function store(PlanUnidRequest $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$planU = new PlanejamentoUnidade;
 
 		$planU->unidade = $request->unidade;
@@ -29,8 +29,8 @@ class PlanejamentoUnidadeController extends Controller{
 	}
 	
 	public function update(PlanUnidRequest $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$planU = PlanejamentoUnidade::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$planU = PlanejamentoUnidade::findOrFail($id);
 		$this->authorize('crud', $planU);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -47,8 +47,8 @@ class PlanejamentoUnidadeController extends Controller{
 	}
 
 	public function destroy(Request $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$planU = PlanejamentoUnidade::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$planU = PlanejamentoUnidade::findOrFail($id);
 
 		$this->authorize('crud', $planU);
 		if($plano->status != 'Em Edição'){

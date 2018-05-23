@@ -12,7 +12,7 @@ class ExameController extends Controller
 {
 
 	public function exame($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$semestre = $plano->turma()->first()->semestre()->first();
 		$feriados = $semestre->feriados()->get();
 
@@ -25,7 +25,7 @@ class ExameController extends Controller
 	}
 
 	public function store(ExameRequest $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$exame = new Exame;
 
 		$exame->descricao = $request->descricao;
@@ -45,8 +45,8 @@ class ExameController extends Controller
 	}
 	
 	public function update(ExameRequest $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$exame = Exame::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$exame = Exame::findOrFail($id);
 		$this->authorize('crud', $exame);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -64,7 +64,7 @@ class ExameController extends Controller
 	}
 	
 	public function destroy(Request $request, $id){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$exame = Exame::findOrFail($id);
 
 		$this->authorize('crud', $exame);

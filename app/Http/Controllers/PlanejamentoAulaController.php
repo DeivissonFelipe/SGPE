@@ -10,7 +10,7 @@ use App\Http\Requests\PlanAulaRequest;
 class PlanejamentoAulaController extends Controller{
 	
 	public function store(PlanAulaRequest $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$planA = new PlanejamentoAula;
 
 		$planA->aula = $request->aula;
@@ -30,8 +30,8 @@ class PlanejamentoAulaController extends Controller{
 	}
 	
 	public function update(PlanAulaRequest $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$planA = PlanejamentoAula::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$planA = PlanejamentoAula::findOrFail($id);
 		$this->authorize('crud', $planA);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -50,8 +50,8 @@ class PlanejamentoAulaController extends Controller{
 	}
 
 	public function destroy(Request $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$planA = PlanejamentoAula::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$planA = PlanejamentoAula::findOrFail($id);
 
 		$this->authorize('crud', $planA);
 		if($plano->status != 'Em Edição'){

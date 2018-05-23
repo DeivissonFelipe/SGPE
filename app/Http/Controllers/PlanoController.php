@@ -18,6 +18,10 @@ use App\PlanejamentoAula;
 use App\PlanejamentoUnidade;
 use App\Pendencia;
 use PDF;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
+use Illuminate\Support\Facades\DB;
+
 
 class PlanoController extends Controller{
     public function index(){
@@ -55,32 +59,46 @@ class PlanoController extends Controller{
 		return redirect('/planos');
 	}
 	public function show($id){
+		try{
+			$plano = Plano::findOrFail($id);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano ' .$id. ' não Encontrado!');
+		}
+
 		if(\Auth::check()){
-			$plano = Plano::find($id);
-			if(count($plano) <= 0){abort(404);}
 			return view('planos.show')->with('plano', $plano);
 		}else{
-			$plano = Plano::find($id);
-			if(count($plano) <= 0){abort(404);}
 			return view('planos.show_noAuth')->with('plano', $plano);
 		}
 	}
 	public function edit($id){
-		$plano = Plano::find($id);
+		try{
+			$plano = Plano::findOrFail($id);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano ' .$id. ' não Encontrado!');
+		}
 		$pendencias = Pendencia::where('plano_id', $id)->get();
 		return view('planos.edit')->with(compact('plano','pendencias'));
 	}
 	public function pdf(Request $request){
-		$plano = Plano::find($request->id);
+		try{
+			$plano = Plano::findOrFail($request->id);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano ' .$id. ' não Encontrado!');
+		}
 		$pdf = PDF::loadView('planos.pdf', compact('plano'));
 		return $pdf->stream('plano.pdf');
 	}
 	public function pdf2(Request $request){
-		$plano = Plano::find($request->id);
+		try{
+			$plano = Plano::findOrFail($request->id);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano ' .$id. ' não Encontrado!');
+		}
 		return view('planos.pdf')->with('plano', $plano);
 	}
 	public function observacao(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -91,7 +109,7 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_planejamento($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$semestre = $plano->turma()->first()->semestre()->first();
 		$feriados = $semestre->feriados()->get();
 
@@ -103,11 +121,11 @@ class PlanoController extends Controller{
 		return view('planos.partials-edit.planejamento')->with(compact('plano','semestre','diasNaoLetivos'));
 	}
 	public function index_ementa($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.ementa')->with('plano', $plano);		
 	}
 	public function ementa(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -118,11 +136,11 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_conteudo($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.conteudo')->with('plano', $plano);
 	}
 	public function conteudo(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -133,11 +151,11 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_objetivo($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.objetivo')->with('plano', $plano);
 	}
 	public function objetivo(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -148,11 +166,11 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_avaliacao($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.avaliacao')->with('plano', $plano);
 	}
 	public function avaliacao(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -163,11 +181,11 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_metodologia($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.metodologia')->with('plano', $plano);
 	}
 	public function metodologia(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -178,11 +196,11 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/edit')->with('plano', $plano);
 	}
 	public function index_bibliografia($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		return view('planos.partials-edit.bibliografia')->with('plano', $plano);
 	}
 	public function bibliografiab(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -193,7 +211,7 @@ class PlanoController extends Controller{
 		return redirect('/planos/'.$plano->id.'/bibliografias')->with('plano', $plano);
 	}
 	public function bibliografiac(Request $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$this->authorize('owner', $plano);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -205,7 +223,7 @@ class PlanoController extends Controller{
 	}
 	public function export($id){
 		//Selecionando o plano a ser copiado
-		$pOrign = Plano::find($id);
+		$pOrign = Plano::findOrFail($id);
 		//Recuperação de todos os planos de ensino que o usuário logado é responsável
 		$user = User::find(auth()->id());
 		$turmas_user = $user->turmas()->pluck('turma_id')->toArray();
@@ -216,62 +234,78 @@ class PlanoController extends Controller{
     	return view('planos.export')->with(compact('pOrign','planos_user'));
 	}
 	public function cpyPlano(Request $request){
-		$pOrign = Plano::find($request->pOrign);
-		$pDestiny = Plano::find($request->pDestiny);
+		try{
+			$pOrign = Plano::findOrFail($request->pOrign);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano a ser copiado não Encontrado!');
+		}
+		
+		try{
+			$pDestiny = Plano::findOrFail($request->pDestiny);
+		}catch(ModelNotFoundException $exception){
+			return back()->withError('Plano destino não Encontrado!');
+		}
+
 		$this->authorize('owner', $pDestiny);
 		
-		//Deletando dados de tabelas estrangeiras linkados ao plano antigo
-		Atendimento::where('plano_id', $pDestiny->id)->delete();
-		Exame::where('plano_id', $pDestiny->id)->delete();
-		Horario::where('plano_id', $pDestiny->id)->delete();
-		PlanejamentoAula::where('plano_id', $pDestiny->id)->delete();
-		PlanejamentoUnidade::where('plano_id', $pDestiny->id)->delete();
+		DB::transaction(function () use($pOrign, $pDestiny){
+			try{
+				//Deletando dados de tabelas estrangeiras linkados ao plano antigo
+				Atendimento::where('plano_id', $pDestiny->id)->delete();
+				Exame::where('plano_id', $pDestiny->id)->delete();
+				Horario::where('plano_id', $pDestiny->id)->delete();
+				PlanejamentoAula::where('plano_id', $pDestiny->id)->delete();
+				PlanejamentoUnidade::where('plano_id', $pDestiny->id)->delete();
+			
+				//Copiar campos da tabela "planos"
+				$aux_plano = $pOrign->replicate();
+				$aux_plano->exists = true;
+				$aux_plano->id = $pDestiny->id;
+				$aux_plano->turma_id = $pDestiny->turma_id;
+				$aux_plano->aprovacao = null;
+				$aux_plano->save();		
 
-		//Copiar campos da tabela "planos"
-		$aux_plano = $pOrign->replicate();
-		$aux_plano->exists = true;
-		$aux_plano->id = $pDestiny->id;
-		$aux_plano->turma_id = $pDestiny->turma_id;
-		$aux_plano->aprovacao = null;
-		$aux_plano->save();		
+				//Recuperando do BD registros correspondente ao plano a ser copiado
+				$atendimentos = Atendimento::where('plano_id', $pOrign->id)->get();
+				$exames = Exame::where('plano_id', $pOrign->id)->get();
+				$horarios = Horario::where('plano_id', $pOrign->id)->get();
+				$planejamentoA = PlanejamentoAula::where('plano_id', $pOrign->id)->get();
+				$planejamentoU = PlanejamentoUnidade::where('plano_id', $pOrign->id)->get();
 
-		//Recuperando do BD registros correspondente ao plano a ser copiado
-		$atendimentos = Atendimento::where('plano_id', $pOrign->id)->get();
-		$exames = Exame::where('plano_id', $pOrign->id)->get();
-		$horarios = Horario::where('plano_id', $pOrign->id)->get();
-		$planejamentoA = PlanejamentoAula::where('plano_id', $pOrign->id)->get();
-		$planejamentoU = PlanejamentoUnidade::where('plano_id', $pOrign->id)->get();
-
-		//Copiando os registros de tabelas estrangeiras e linkando ao plano de destino
-		foreach ($atendimentos as $a ) {
-			$aux_atendimento = $a->replicate();
-			$aux_atendimento->plano_id = $pDestiny->id;
-			$aux_atendimento->save();
-		}
-		foreach ($exames as $e ) {
-			$aux_exame = $e->replicate();
-			$aux_exame->plano_id = $pDestiny->id;
-			$aux_exame->save();
-		}
-		foreach ($horarios as $h ) {
-			$aux_horario = $h->replicate();
-			$aux_horario->plano_id = $pDestiny->id;
-			$aux_horario->save();
-		}
-		foreach ($planejamentoA as $planA ) {
-			$aux_planA = $planA->replicate();
-			$aux_planA->plano_id = $pDestiny->id;
-			$aux_planA->save();
-		}
-		foreach ($planejamentoU as $planU ) {
-			$aux_planU = $planU->replicate();
-			$aux_planU->plano_id = $pDestiny->id;
-			$aux_planU->save();
-		}
-		
-		session()->flash('info', 'Exportação dos dados realizado com sucesso!');
+				//Copiando os registros de tabelas estrangeiras e linkando ao plano de destino
+				foreach ($atendimentos as $a ) {
+					$aux_atendimento = $a->replicate();
+					$aux_atendimento->plano_id = $pDestiny->id;
+					$aux_atendimento->save();
+				}
+				foreach ($exames as $e ) {
+					$aux_exame = $e->replicate();
+					$aux_exame->plano_id = $pDestiny->id;
+					$aux_exame->save();
+				}
+				foreach ($horarios as $h ) {
+					$aux_horario = $h->replicate();
+					$aux_horario->plano_id = $pDestiny->id;
+					$aux_horario->save();
+				}
+				foreach ($planejamentoA as $planA ) {
+					$aux_planA = $planA->replicate();
+					$aux_planA->plano_id = $pDestiny->id;
+					$aux_planA->save();
+				}
+				foreach ($planejamentoU as $planU ) {
+					$aux_planU = $planU->replicate();
+					$aux_planU->plano_id = $pDestiny->id;
+					$aux_planU->save();
+				}
+				session()->flash('info', 'Exportação dos dados realizado com sucesso!');
+			}
+			catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Exportação do plano de ensino Falhou. ' . $e->getMessage());
+			}
+		});
 		return redirect('/planos');
-		
 	}
 	public function category(){
 		$id = Input::get('id');
@@ -421,7 +455,7 @@ class PlanoController extends Controller{
 		return \Response::json($array);
 	}
 	public function planTipo(Request $request){
-		$plano = Plano::find($request->id);
+		$plano = Plano::findOrFail($request->id);
 		$this->authorize('owner', $plano);
 		$plano->tipo = $request->tipo;
 		$plano->save();
@@ -738,28 +772,36 @@ class PlanoController extends Controller{
 		return \Response::json($array);
 	}
 	public function aprovar($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$plano->aprovacao = Carbon::now();
 		$plano->status = "Aprovado";
 		$plano->save();
 		return json_encode(array("success" => "true", 'msg' => 'O Plano de Ensino foi Aprovado com sucesso!'));
 	}
 	public function pendencia($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$pendencias = Pendencia::where('plano_id', $id)->get();
 		return view('planos.reg_pend')->with(compact('plano', 'pendencias'));
 	}
 	public function registrarPendencia(Request $request){
-		$pendencia = Pendencia::create($request->all());
-		$pendencia->save();
-		$plano = Plano::find($request->plano_id);
-		$plano->status = 'Em Edição';
-		$plano->save();
-		session()->flash('info', 'Pendência criada com sucesso! O Plano de Ensino foi retornado ao professor responsável !');
+		DB::transaction(function() use($request){
+			try{
+				$pendencia = Pendencia::create($request->all());
+				$pendencia->save();
+				$plano = Plano::find($request->plano_id);
+				$plano->status = 'Em Edição';
+				$plano->save();
+				session()->flash('info', 'Pendência criada com sucesso! O Plano de Ensino foi retornado ao professor responsável !');
+			}
+			catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Registro da pendência Falhou. ' . $e->getMessage());
+			}
+		});		
 		return redirect()->action('PlanoController@aprovacao');
 	}
 	public function view_pend($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$pendencias = Pendencia::where('plano_id', $id)->get();
 		return view('planos.view_pend')->with(compact('plano', 'pendencias'));
 	}

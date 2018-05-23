@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Semestre;
 use App\Http\Requests\SemestreRequest;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class SemestreController extends Controller
 {
@@ -24,17 +26,17 @@ class SemestreController extends Controller
 	}
 
 	public function show($id){
-		$semestre = Semestre::find($id);
+		$semestre = Semestre::findOrFail($id);
 		return view('semestres.show')->with('semestre', $semestre);
 	}
 
 	public function edit($id){
-		$semestre = Semestre::find($id);
+		$semestre = Semestre::findOrFail($id);
 		return view('semestres.edit')->with('semestre', $semestre);
 	}
 
 	public function update(UpdateSemestreRequest $request, $id){
-		$semestre = Semestre::find($id);
+		$semestre = Semestre::findOrFail($id);
 		$semestre->rotulo = $request->rotulo;
 		$semestre->inicio = $request->inicio;
 		$semestre->fim = $request->fim;
@@ -45,19 +47,23 @@ class SemestreController extends Controller
 	}
 
 	public function destroy($id){
-		$semestre = Semestre::find($id);
+		$semestre = Semestre::findOrFail($id);
 		if(count($semestre->turmas()->get())>0){
 			return back()->with('error', 'Exclusão do Semestre Falhou! Há alguma turma vinculada à este Semestre.');
 		}else{
-			$semestre->feriados()->delete();
-			$semestre->trocas()->delete();
-			Semestre::destroy($id);
-			session()->flash('warning', 'Semestre removido com sucesso!');
+			DB::transaction(function () use($semestre, $id){
+				try{
+					$semestre->feriados()->delete();
+					$semestre->trocas()->delete();
+					Semestre::destroy($id);
+					session()->flash('warning', 'Semestre removido com sucesso!');
+				}
+				catch(\Exception $e){
+					DB::rollBack();
+					return back()->withError('Exclusão do semestre Falhou. ' . $e->getMessage());
+				}
+			});
 			return redirect('/semestres');
 		}
-
-
-		
-		
 	}
 }

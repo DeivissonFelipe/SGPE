@@ -11,6 +11,8 @@ use App\Semestre;
 use App\Curso;
 use App\Role;
 use App\Plano;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class TurmaController extends Controller{
     public function index(){
@@ -41,13 +43,11 @@ class TurmaController extends Controller{
 		$users = $request->user_id;
 		
 		if(!in_array(auth()->id(), $users)){
-			
 			if(!User::find(auth()->id())->hasRole('Admin')){
 				return back()->withErrors('A criação da turma falhou! Seu nome não está incluso como professor da turma.');
 			}
 		}
 		
-
 		$turma = new Turma;
 		$turma->disciplina_id = $request->disciplina_id;
 		$turma->semestre_id = $request->semestre_id;
@@ -58,24 +58,28 @@ class TurmaController extends Controller{
 			$turma->tipo_turma = 0; //Criação/Update de turma 'Padrão'
 		}
 
-		$turma->save();
-		// Adiciona uma relação na tabela 'user_turma' entre a turma em questão e os usuários
-		// passados pela requisição via post. 
-		// Uma vez que o método somente adiciona novos registros, um segundo parâmetro é necessário
-		// para não apagar os registros anteriormente salvos na tabela.
-		$turma->users()->sync($request->user_id, false);
-		
-		$this->setNumeroTurma($turma);
+		DB::transaction(function () use($turma, $request){
+			try{
+				$turma->save();
+				// Adiciona uma relação na tabela 'user_turma' entre a turma em questão e os usuários
+				// passados pela requisição via post. 
+				// Uma vez que o método somente adiciona novos registros, um segundo parâmetro é necessário
+				// para não apagar os registros anteriormente salvos na tabela.
+				$turma->users()->sync($request->user_id, false);
+				$this->setNumeroTurma($turma);
 
-		$plano = new Plano();
-		$plano->turma_id = $turma->id;
-		$plano->tipo = 1;
-		$plano->status = 'Em Edição';
-		$plano->save();
-
-		session()->flash('info', 'Turma inserida com sucesso!');
+				$plano = new Plano();
+				$plano->turma_id = $turma->id;
+				$plano->tipo = 1;
+				$plano->status = 'Em Edição';
+				$plano->save();
+				session()->flash('info', 'Turma inserida com sucesso!');
+			}catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Criação da turma Falhou. ' . $e->getMessage());
+			}
+		});
 		return redirect('/turmas');
-
 	}
 	public function edit($id){
 		$allUsers = User::all();
@@ -95,7 +99,7 @@ class TurmaController extends Controller{
 		return view('turmas.edit')->with(compact('users','disciplinas', 'semestres', 'cursos', 'turma'));
 	}
 	public function update(TurmaRequest $request, $id){
-		$turma = Turma::find($id);
+		$turma = Turma::findOrFail($id);
 		$this->authorize('owner', $turma);
 
 		$turma->disciplina_id = $request->disciplina_id;
@@ -107,20 +111,27 @@ class TurmaController extends Controller{
 			$turma->tipo_turma = 0; //Criação/Update de turma 'Padrão'
 		}
 		
-		$turma->save();
-		//Se o campo professor tiver enviado ids pela requisição post para realizar o update...
-		if(isset($request->user_id)){
-			//... então o método sync apaga todas as incidências de usuários para a turma em questão
-			// e cria novas incidências com os valores que foram passados pelo request 
-			// na tabela 'user_turma'	
-			$turma->users()->sync($request->user_id);
-		}else{
-			//... caso contrário ele apaga todas as incidências de usuários para a turma em questão
-			$turma->users()->sync(array());
-		}
-	
-		$this->setNumeroTurma($turma);
-		session()->flash('info', 'Turma atualizada com sucesso!');
+		DB::transaction(function () use($turma, $request){
+			try{
+				$turma->save();
+				//Se o campo professor tiver enviado ids pela requisição post para realizar o update...
+				if(isset($request->user_id)){
+					//... então o método sync apaga todas as incidências de usuários para a turma em questão
+					// e cria novas incidências com os valores que foram passados pelo request 
+					// na tabela 'user_turma'	
+					$turma->users()->sync($request->user_id);
+				}else{
+					//... caso contrário ele apaga todas as incidências de usuários para a turma em questão
+					$turma->users()->sync(array());
+				}
+				$this->setNumeroTurma($turma);
+				session()->flash('info', 'Turma atualizada com sucesso!');
+			}
+			catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Atualização da turma Falhou. ' . $e->getMessage());
+			}
+		});
 		return redirect('/turmas');
 	}
 	public function setNumeroTurma($turma){
@@ -169,7 +180,7 @@ class TurmaController extends Controller{
 		$turma->save();	
 	}
 	public function destroy($id){
-		$turma = Turma::find($id);
+		$turma = Turma::findOrFail($id);
 		$this->authorize('owner', $turma);
 		
 		$cont = 0;
@@ -183,10 +194,18 @@ class TurmaController extends Controller{
 		if($cont > 0){
 			return back()->with('error', 'Exclusão da turma Falhou! Há algum registro vinculado ao plano correspondente.');
 		}else{
-			$turma->planos()->delete();
-			$turma->users()->detach();
-			$turma->delete();
-			session()->flash('warning', 'Turma removida com sucesso!');
+			DB::transaction(function () use($turma){
+				try{
+					$turma->planos()->delete();
+					$turma->users()->detach();
+					$turma->delete();
+					session()->flash('warning', 'Turma removida com sucesso!');		
+				}
+				catch(\Exception $e){
+					DB::rollBack();
+					return back()->withError('Exclusão da turma Falhou. ' . $e->getMessage());
+				}
+			});
 			return redirect('/turmas');
 		}
 	}

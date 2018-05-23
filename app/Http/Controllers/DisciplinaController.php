@@ -9,6 +9,8 @@ use App\Curso;
 use App\Turma;
 use App\Http\Requests\DisciplinaRequest;
 use App\Http\Requests\UpdateDisciplinaRequest;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class DisciplinaController extends Controller
 {
@@ -23,11 +25,18 @@ class DisciplinaController extends Controller
     }
 
 	public function store(DisciplinaRequest $request){
-		$disciplina = Disciplina::create($request->all());
-		$cursosOferta = $request->oferta;
-		$this->syncDisciplinaCurso($cursosOferta, $disciplina);
-
-		session()->flash('info', 'Disciplina inserida com sucesso!');
+		DB::transaction(function() use($request){
+			try{
+				$disciplina = Disciplina::create($request->all());
+				$cursosOferta = $request->oferta;
+				$this->syncDisciplinaCurso($cursosOferta, $disciplina);
+				session()->flash('info', 'Disciplina inserida com sucesso!');
+			}
+			catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Criação da disciplina Falhou. ' . $e->getMessage());
+			}
+		});
 		return redirect('/disciplinas');
 	}
 
@@ -38,24 +47,29 @@ class DisciplinaController extends Controller
 	}
 
 	public function update(UpdateDisciplinaRequest $request, $id){
-		$disciplina = Disciplina::find($id);
+		$disciplina = Disciplina::findOrFail($id);
 		$disciplina->codigo = $request->codigo;
 		$disciplina->nome = $request->nome;
 		$disciplina->name = $request->name;
 		$disciplina->chsemestral = $request->chsemestral;
 		$disciplina->chsemanalp = $request->chsemanalp;
 		$disciplina->chsemanalt = $request->chsemanalt;
-         
 		$disciplina->departamento_id = $request->departamento_id;
-
-		$disciplina->save();
-		$disciplina->cursos()->detach();
-	
-		$cursosOferta = $request->oferta;
-		$this->syncDisciplinaCurso($cursosOferta, $disciplina);
-		$this->updateNumeroTurma($cursosOferta, $disciplina->id);
-	
-		session()->flash('info', 'Disciplina atualizada com sucesso!');
+         
+		DB::transaction(function () use($disciplina, $request){
+			try{
+				$disciplina->save();
+				$disciplina->cursos()->detach();
+				$cursosOferta = $request->oferta;
+				$this->syncDisciplinaCurso($cursosOferta, $disciplina);
+				$this->updateNumeroTurma($cursosOferta, $disciplina->id);
+				session()->flash('info', 'Disciplina atualizada com sucesso!');
+			}
+			catch(\Exception $e){
+				DB::rollBack();
+				return back()->withError('Atualização da disciplina Falhou. ' . $e->getMessage());
+			}
+		});	
 		return redirect('/disciplinas');
 	}
 
@@ -115,10 +129,10 @@ class DisciplinaController extends Controller
 			
 			$result = $result->toArray();
 
-			//1ºnumero (qtd de registro)
+			//1º algorismo (qtd de registro)
 			$qtd = count($result);
 			
-			//2º numero 
+			//2º algorismo 
 			//array ordenado
 			sort($result);
 			$contador = 1;
@@ -139,13 +153,21 @@ class DisciplinaController extends Controller
 	}
 
 	public function destroy($id){
-		$disciplina = Disciplina::find($id);
+		$disciplina = Disciplina::findOrFail($id);
 		if(count($disciplina->turmas()->get()) > 0){
 			return back()->with('error', 'Exclusão da disciplina Falhou! Há alguma turma vinculada à esta disciplina.');
 		}else{
-			$turma->cursos()->detach();
-			Disciplina::destroy($id);
-			session()->flash('warning', 'Disciplina removida com sucesso!');
+			DB::transaction(function() use($disciplina, $id){
+				try{
+					$disciplina->cursos()->detach();
+					Disciplina::destroy($id);
+					session()->flash('warning', 'Disciplina removida com sucesso!');
+				}
+				catch(\Exception $e){
+					DB::rollBack();
+					return back()->withError('Exclusão da disciplina Falhou. ' . $e->getMessage());
+				}
+			});
 			return redirect('/disciplinas');
 		}
 	}

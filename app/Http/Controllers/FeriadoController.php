@@ -23,8 +23,6 @@ class FeriadoController extends Controller
     	return view('feriados.create')->with('semestres', $semestres);
     }
 
-    public function buscaPorAno(){}
-    
 	public function store(FeriadoRequest $request){
 		Feriado::create($request->all());
 		session()->flash('info', 'Feriado adicionado com sucesso!');
@@ -33,12 +31,12 @@ class FeriadoController extends Controller
 	
 	public function edit($id){
 		$semestres = Semestre::all();
-		$feriado = Feriado::find($id);
+		$feriado = Feriado::findOrFail($id);
 		return view('feriados.edit')->with( compact('feriado', 'semestres'));
 	}
 
 	public function update(UpdateFeriadoRequest $request, $id){
-		$feriado = Feriado::find($id);
+		$feriado = Feriado::findOrFail($id);
 		$feriado->data = $request->data;
 		$feriado->semestre_id = $request->semestre_id;
 
@@ -55,7 +53,7 @@ class FeriadoController extends Controller
 
 	public function ajaxSemestre(){
 		$id = Input::get('id');
-		$semestre = Semestre::find($id);
+		$semestre = Semestre::findOrFail($id);
 		$array = [
 			'd_inicio' => Carbon::parse($semestre->inicio)->day,
 			'm_inicio' =>  Carbon::parse($semestre->inicio)->month,

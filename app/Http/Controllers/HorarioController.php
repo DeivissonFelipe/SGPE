@@ -11,7 +11,7 @@ class HorarioController extends Controller
 {
 
 	public function aula($id){
-		$plano = Plano::find($id);
+		$plano = Plano::findOrFail($id);
 		$semestre = $plano->turma()->first()->semestre()->first();
 		$feriados = $semestre->feriados()->get();
 
@@ -24,7 +24,7 @@ class HorarioController extends Controller
 	}
 
 	public function store(HorarioRequest $request){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$horario = new Horario;
 
 		$horario->dia = $request->dia;
@@ -43,8 +43,8 @@ class HorarioController extends Controller
 	}
 	
 	public function update(HorarioRequest $request, $id){
-		$plano = Plano::find($request->plano_id);
-		$horario = Horario::find($id);
+		$plano = Plano::findOrFail($request->plano_id);
+		$horario = Horario::findOrFail($id);
 		$this->authorize('crud', $horario);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
@@ -61,7 +61,7 @@ class HorarioController extends Controller
 	}
 	
 	public function destroy(Request $request, $id){
-		$plano = Plano::find($request->plano_id);
+		$plano = Plano::findOrFail($request->plano_id);
 		$horario = Horario::findOrFail($id);
 
 		$this->authorize('crud', $horario);

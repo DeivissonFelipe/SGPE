@@ -24,13 +24,12 @@ class DepartamentoController extends Controller
 	}
 
 	public function edit($id){
-		$departamento = Departamento::find($id);
-
+		$departamento = Departamento::findOrFail($id);
 		return view('departamentos.edit')->with('departamento', $departamento);
 	}
 
 	public function update(UpdateDepartamentoRequest $request, $id){
-		$departamento = Departamento::find($id);
+		$departamento = Departamento::findOrFail($id);
 		$departamento->nome = $request->nome;
 		$departamento->sigla = $request->sigla;
 
@@ -40,7 +39,7 @@ class DepartamentoController extends Controller
 	}
 
 	public function destroy($id){
-		$departamento = Departamento::find($id);
+		$departamento = Departamento::findOrFail($id);
 		if(count($departamento->disciplinas()->get()) > 0){
 			return back()->with('error', 'Exclusão do departamento Falhou! Há alguma disciplina vinculada à este departamento.');
 		}
