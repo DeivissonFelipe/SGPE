@@ -40,7 +40,7 @@ class ExameRequest extends FormRequest
         return [
             'descricao' => 'required|max:255',
             // 'peso' => 'numeric|mais100:plano_id',
-            'peso' => 'numeric',
+            'peso' => 'numeric|max:100',
             'data' => 'date|pertence_plano:plano_id|dia_semana|not_exists:feriados,data',
             'conteudo' => 'required',
             'plano_id' => 'required|exists:planos,id',
@@ -53,6 +53,7 @@ class ExameRequest extends FormRequest
             'descricao.required' => 'O campo :attribute é obrigatório.',
             'descricao.max' => 'O campo :attribute atingiu o limite de caracteres.',
             'peso.numeric' => 'O campo :attribute deve ser um tipo númerico',
+            'peso.max' => 'O campo :attribute não deve ser maior do que 100pts',
             // 'peso.mais100' => 'A soma das avaliações é maior do que o valor total de 100pts.',
             'data.date' => 'O campo :attribute não está no formato correto.',
             'data.pertence_plano' => 'O campo :attribute não pertence ao semestre selecionado.',

@@ -10,7 +10,6 @@
             <th>E-mail</th>
             <th>Admin</th>
             <th>Professor</th>
-            <th>Aluno</th>
             <th></th>
         </thead>
         <tbody>
@@ -22,7 +21,6 @@
                         <td>{{$user->email}} <input type="hidden" name="email" value="{{$user->email}}"></td>
                         <td><input type="checkbox" {{$user->hasRole('Admin') ? 'checked' : ''}} name="role_admin"></td>
                         <td><input type="checkbox" {{$user->hasRole('Professor') ? 'checked' : ''}} name="role_professor"></td>
-                        <td><input type="checkbox" {{$user->hasRole('Aluno') ? 'checked' : ''}} name="role_aluno"></td>
                         {{csrf_field()}}
                         <td><button type="submit">Assign Roles</button></td>
                     </form>

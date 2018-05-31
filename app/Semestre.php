@@ -29,16 +29,8 @@ class Semestre extends Model
          return Carbon::parse($value)->format('d-m-Y');
     }
 
-    public function setInicioAttribute($value){
-        $this->attributes['inicio'] = Carbon::createFromFormat('d-m-Y', $value);
-    }
-
     public function getFimAttribute($value)
     {
          return Carbon::parse($value)->format('d-m-Y');
-    }
-
-    public function setFimAttribute($value){
-        $this->attributes['fim'] = Carbon::createFromFormat('d-m-Y', $value);
-    }
+    }    
 }

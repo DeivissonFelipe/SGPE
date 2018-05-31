@@ -9,32 +9,27 @@ use Carbon\Carbon;
 use App\Semestre;
 use App\Feriado;
 use App\Http\Requests\FeriadoRequest;
+use App\Http\Requests\UpdateFeriadoRequest;
 
-
-class FeriadoController extends Controller
-{
+class FeriadoController extends Controller{
     public function index(){
     	$feriados = Feriado::paginate(10);
     	return view('feriados.index')->with('feriados', $feriados);
     }
-    
     public function create(){
     	$semestres = Semestre::all();
     	return view('feriados.create')->with('semestres', $semestres);
     }
-
 	public function store(FeriadoRequest $request){
 		Feriado::create($request->all());
 		session()->flash('info', 'Feriado adicionado com sucesso!');
 		return redirect('/feriados');
 	}
-	
 	public function edit($id){
 		$semestres = Semestre::all();
 		$feriado = Feriado::findOrFail($id);
 		return view('feriados.edit')->with( compact('feriado', 'semestres'));
 	}
-
 	public function update(UpdateFeriadoRequest $request, $id){
 		$feriado = Feriado::findOrFail($id);
 		$feriado->data = $request->data;
@@ -44,13 +39,11 @@ class FeriadoController extends Controller
 		session()->flash('info', 'Feriado atualizado com sucesso!');
 		return redirect('/feriados');
 	}
-	
 	public function destroy($id){
 	 	Feriado::destroy($id);
 		session()->flash('warning', 'Feriado removido com sucesso!');
 	 	return redirect('/feriados');
 	}
-
 	public function ajaxSemestre(){
 		$id = Input::get('id');
 		$semestre = Semestre::findOrFail($id);

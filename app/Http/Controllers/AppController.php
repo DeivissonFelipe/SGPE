@@ -24,9 +24,6 @@ class AppController extends Controller
     	if($request['role_professor']){
     		$user->roles()->attach(Role::where('name', 'Professor')->first());
     	}
-    	if($request['role_aluno']){
-    		$user->roles()->attach(Role::where('name', 'Aluno')->first());
-    	}
     	return redirect()->back();
     }
 

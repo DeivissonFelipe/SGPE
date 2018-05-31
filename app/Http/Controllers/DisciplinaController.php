@@ -12,8 +12,7 @@ use App\Http\Requests\UpdateDisciplinaRequest;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class DisciplinaController extends Controller
-{
+class DisciplinaController extends Controller{
     public function index(){
     	$disciplinas = Disciplina::orderBy('nome', 'asc')->paginate(7);
     	return view('disciplinas.index')->with('disciplinas', $disciplinas);
@@ -25,6 +24,9 @@ class DisciplinaController extends Controller
     }
 
 	public function store(DisciplinaRequest $request){
+		if(empty($request->oferta)){
+			return back()->withError('Criação da disciplina Falhou. É necessário selecionar, pelo menos, um curso para ofertar a disciplina!');
+		}
 		DB::transaction(function() use($request){
 			try{
 				$disciplina = Disciplina::create($request->all());
@@ -47,6 +49,10 @@ class DisciplinaController extends Controller
 	}
 
 	public function update(UpdateDisciplinaRequest $request, $id){
+		if(empty($request->oferta)){
+			return back()->withError('Criação da disciplina Falhou. É necessário selecionar, pelo menos, um curso para ofertar a disciplina!');
+		}
+		
 		$disciplina = Disciplina::findOrFail($id);
 		$disciplina->codigo = $request->codigo;
 		$disciplina->nome = $request->nome;

@@ -61,10 +61,8 @@ class TurmaController extends Controller{
 		DB::transaction(function () use($turma, $request){
 			try{
 				$turma->save();
-				// Adiciona uma relação na tabela 'user_turma' entre a turma em questão e os usuários
-				// passados pela requisição via post. 
-				// Uma vez que o método somente adiciona novos registros, um segundo parâmetro é necessário
-				// para não apagar os registros anteriormente salvos na tabela.
+				// Adiciona uma relação na tabela 'user_turma' entre a turma em questão e os usuários passados pela requisição via post. 
+				// Uma vez que o método somente adiciona novos registros, um segundo parâmetro é necessário para não apagar os registros anteriormente salvos na tabela.
 				$turma->users()->sync($request->user_id, false);
 				$this->setNumeroTurma($turma);
 

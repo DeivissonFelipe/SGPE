@@ -1,19 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
-
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/', function () {
@@ -25,13 +11,13 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('home');
 
 	Route::group(['middleware' => 'roles', 'roles' =>['Professor','Admin']], function () {
-		Route::resource('turmas', 'TurmaController');
-		Route::resource('planos', 'PlanoController');
-		Route::resource('horarios', 'HorarioController');
-		Route::resource('atendimentos', 'AtendimentoController');
-		Route::resource('exames', 'ExameController');
-		Route::resource('planejamentoAulas', 'PlanejamentoAulaController');
-		Route::resource('planejamentoUnidades', 'PlanejamentoUnidadeController');
+		Route::resource('turmas', 'TurmaController', ['except'=> ['show']]);
+		Route::resource('planos', 'PlanoController', ['except'=> ['create', 'store', 'update','destroy']]);
+		Route::resource('horarios', 'HorarioController', ['only' => ['store', 'update', 'destroy']]);
+		Route::resource('atendimentos', 'AtendimentoController', ['only' => ['store', 'update', 'destroy']]);
+		Route::resource('exames', 'ExameController', ['only' => ['store', 'update', 'destroy']]);
+		Route::resource('planejamentoAulas', 'PlanejamentoAulaController', ['only' => ['store', 'update', 'destroy']]);
+		Route::resource('planejamentoUnidades', 'PlanejamentoUnidadeController', ['only' => ['store', 'update', 'destroy']]);
 
 		Route::get('/planos/{plano}/atendimentos', 'AtendimentoController@atendimento');	
 		Route::get('/planos/{plano}/aula', 'HorarioController@aula');	
@@ -65,12 +51,12 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	
 	Route::group(['middleware' => 'roles', 'roles' =>['Admin']], function () {
-		Route::resource('cursos', 'CursoController');
-		Route::resource('departamentos', 'DepartamentoController');
-		Route::resource('semestres', 'SemestreController');
-		Route::resource('trocas', 'TrocaController');
-		Route::resource('disciplinas', 'DisciplinaController');
-		Route::resource('feriados', 'FeriadoController');
+		Route::resource('cursos', 'CursoController', ['except'=> ['show']]);
+		Route::resource('departamentos', 'DepartamentoController', ['except'=> ['show']]);
+		Route::resource('semestres', 'SemestreController', ['except'=> ['show']]);
+		Route::resource('trocas', 'TrocaController', ['except'=> ['show']]);
+		Route::resource('disciplinas', 'DisciplinaController', ['except'=> ['show']]);
+		Route::resource('feriados', 'FeriadoController', ['except'=> ['show']]);
 		Route::get('/aprovacao', 'PlanoController@aprovacao')->name('aprovacao');
 		Route::post('/aprovacaoSemestre', 'PlanoController@aprovacaoSemestre');
 		Route::get('/aprovar/{plano}', 'PlanoController@aprovar');
@@ -115,8 +101,8 @@ Route::get('/view/{plano}', 'PlanoController@show');
 
 //--------------------------------------------->>
 
-	Route::get('/registro', function () {
-    	return view('auth.myRegister');
-	});
+	// Route::get('/registro', function () {
+    // 	return view('auth.myRegister');
+	// });
 
 //--------------------------------------------->>

@@ -7,9 +7,7 @@ use App\Horario;
 use App\Plano;
 use App\Http\Requests\HorarioRequest;
 
-class HorarioController extends Controller
-{
-
+class HorarioController extends Controller{
 	public function aula($id){
 		$plano = Plano::findOrFail($id);
 		$semestre = $plano->turma()->first()->semestre()->first();
@@ -35,6 +33,7 @@ class HorarioController extends Controller
 		$this->authorize('crud', $horario);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$horario->save();
 
@@ -48,6 +47,7 @@ class HorarioController extends Controller
 		$this->authorize('crud', $horario);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 
 		$horario->dia = $request->dia;
@@ -67,6 +67,7 @@ class HorarioController extends Controller
 		$this->authorize('crud', $horario);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$horario->delete();
 		session()->flash('warning', 'Horário de aula removido com sucesso!');

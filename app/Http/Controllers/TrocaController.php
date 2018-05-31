@@ -9,9 +9,9 @@ use Carbon\Carbon;
 use App\Troca;
 use App\Semestre;
 use App\Http\Requests\TrocaRequest;
+use App\Http\Requests\UpdateTrocaRequest;
 
-class TrocaController extends Controller
-{
+class TrocaController extends Controller{
     public function index(){
     	$trocas = Troca::orderBy('dia', 'desc')->paginate(10);
     	return view('trocas.index')->with('trocas', $trocas);
@@ -32,7 +32,6 @@ class TrocaController extends Controller
 		session()->flash('info', 'Substituição de dia letivo registrada com sucesso!');
 		return redirect('/trocas');
 	}
-	
 	public function edit($id){
 		$troca = Troca::findOrFail($id);
 		$semestres = Semestre::orderBy('inicio','desc')->get();

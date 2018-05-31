@@ -8,7 +8,6 @@ use App\Plano;
 use App\Http\Requests\PlanUnidRequest;
 
 class PlanejamentoUnidadeController extends Controller{
-
     public function store(PlanUnidRequest $request){
 		$plano = Plano::findOrFail($request->plano_id);
 		$planU = new PlanejamentoUnidade;
@@ -21,19 +20,20 @@ class PlanejamentoUnidadeController extends Controller{
 		$this->authorize('crud', $planU);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$planU->save();
 		
 		session()->flash('info', 'Planejamento de aula inserido com sucesso!');
 		return redirect('/planos/'.$plano->id.'/planejamentos')->with('plano', $plano);
 	}
-	
 	public function update(PlanUnidRequest $request, $id){
 		$plano = Plano::findOrFail($request->plano_id);
 		$planU = PlanejamentoUnidade::findOrFail($id);
 		$this->authorize('crud', $planU);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 
 		$planU->unidade = $request->unidade;
@@ -45,7 +45,6 @@ class PlanejamentoUnidadeController extends Controller{
 		session()->flash('info', 'Planejamento por unidade atualizado com sucesso!');
 		return redirect('/planos/'.$plano->id.'/planejamentos')->with('plano', $plano);
 	}
-
 	public function destroy(Request $request, $id){
 		$plano = Plano::findOrFail($request->plano_id);
 		$planU = PlanejamentoUnidade::findOrFail($id);
@@ -53,6 +52,7 @@ class PlanejamentoUnidadeController extends Controller{
 		$this->authorize('crud', $planU);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$planU->delete();
 		session()->flash('warning', 'Planejamento de aula removido com sucesso!');

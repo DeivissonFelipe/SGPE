@@ -8,9 +8,7 @@ use App\Plano;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExameRequest;
 
-class ExameController extends Controller
-{
-
+class ExameController extends Controller{
 	public function exame($id){
 		$plano = Plano::findOrFail($id);
 		$semestre = $plano->turma()->first()->semestre()->first();
@@ -23,7 +21,6 @@ class ExameController extends Controller
 		$diasNaoLetivos = json_encode($diasNaoLetivos);
 		return view('planos.partials-edit.exame')->with(compact('plano','semestre','diasNaoLetivos'));
 	}
-
 	public function store(ExameRequest $request){
 		$plano = Plano::findOrFail($request->plano_id);
 		$exame = new Exame;
@@ -37,19 +34,20 @@ class ExameController extends Controller
 		$this->authorize('crud', $exame);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$exame->save();
 		
 		session()->flash('info', 'Avaliação inserida com sucesso!');
 		return redirect('/planos/'.$plano->id.'/exames')->with('plano', $plano);
 	}
-	
 	public function update(ExameRequest $request, $id){
 		$plano = Plano::findOrFail($request->plano_id);
 		$exame = Exame::findOrFail($id);
 		$this->authorize('crud', $exame);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 
 		$exame->descricao = $request->descricao;
@@ -62,7 +60,6 @@ class ExameController extends Controller
 		session()->flash('info', 'Exame avaliativo atualizado com sucesso!');
 		return redirect('/planos/'. $request->plano_id .'/exames')->with('plano', $plano);
 	}
-	
 	public function destroy(Request $request, $id){
 		$plano = Plano::findOrFail($request->plano_id);
 		$exame = Exame::findOrFail($id);
@@ -70,6 +67,7 @@ class ExameController extends Controller
 		$this->authorize('crud', $exame);
 		if($plano->status != 'Em Edição'){
 			$plano->status = 'Em Edição';
+			$plano->save();
 		}
 		$exame->delete();
 		session()->flash('warning', 'Avaliação removida com sucesso!');

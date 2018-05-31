@@ -29,7 +29,11 @@
 
       <!-- iCheck v1.0.1-->
       <link href="{{ asset('/bower_components/admin-lte/plugins/iCheck/square/blue.css')}}" rel="stylesheet" type="text/css" />
-
+      <style>
+        .help-block{
+          color:red;
+        }
+      </style>
   </head>
   <body class="hold-transition login-page">
 

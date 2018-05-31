@@ -50,14 +50,6 @@ class PlanoController extends Controller{
 			return view('planos.index_noAuth')->with('planos', $planos);
 		}	
     }
-	public function store(Request $request){
-		$plano = Plano::create($request->all());
-		$plano->tipo = 1;
-		$plano->status = 'Em Edição';
-		$plano->save();
-		session()->flash('info', 'Plano de Ensino criado com sucesso!');
-		return redirect('/planos');
-	}
 	public function show($id){
 		try{
 			$plano = Plano::findOrFail($id);

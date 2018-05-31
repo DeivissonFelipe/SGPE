@@ -9,7 +9,7 @@
     <link href="{{ asset('/bower_components/admin-lte/plugins/iCheck/square/blue.css')}}" rel="stylesheet" type="text/css" />
 
 	<!-- Select2 v4.0.5-->
-	<link href="{{ asset('/bower_components/select2/dist/css/select2.css')}}" rel="stylesheet" type="text/css" />
+	<!-- <link href="{{ asset('/bower_components/select2/dist/css/select2.css')}}" rel="stylesheet" type="text/css" /> -->
 @endpush
 
 @push('javascript')
@@ -31,9 +31,10 @@
 	</script>
 
 	<script type="text/javascript">
-		$(".selectMulti").select2({
-			theme: "classic"	
-		});
+		// $(".selectMulti").select2({
+		// 	theme: "classic"	
+		// });
+		$(".select2").select2();
 	</script>
 @endpush
 
@@ -63,7 +64,7 @@
 				<div class="box-body">
 					<div class="form-group">
 							<label>Professor</label>
-							<select class="form-control selectMulti" style="width: 100%;" tabindex="-1" aria-hidden="true" name="user_id[]" multiple="multiple">
+							<select class="form-control  select2 selectMulti" style="width: 100%;" tabindex="-1" aria-hidden="true" name="user_id[]" multiple="multiple">
 								@foreach($users as $u)
 								<option value="{{$u->id}}">{{$u->name}}</option>
 								@endforeach
@@ -72,7 +73,7 @@
 
 					<div class="form-group">
 						<label>Disciplina</label>
-						<select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="disciplina_id">
+						<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="disciplina_id">
 							@foreach($disciplinas as $d)
 							<option value="{{$d->id}}">{{$d->nome}}</option>
 							@endforeach
