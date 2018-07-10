@@ -11,13 +11,15 @@ class Exame extends Model
     	'descricao', 'peso', 'data', 'conteudo', 'plano_id'
     ];
 
+    protected $dates = ['data'];
+
     public function plano(){
     	return $this->belongsTo('App\Plano');
     }
 
     public function getDataAttribute($value)
     {
-         return Carbon::parse($value)->format('d-m-Y');
+         return ($value == null) ? null : Carbon::parse($value)->format('d-m-Y');
     }
 
 }

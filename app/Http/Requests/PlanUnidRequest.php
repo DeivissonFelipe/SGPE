@@ -44,9 +44,4 @@ class PlanUnidRequest extends FormRequest
         ];
     }
 
-    protected function getRedirectUrl()
-    {
-        $url = $this->redirector->getUrlGenerator();
-        return $url->previous() . '#planejamento';
-    }
 }

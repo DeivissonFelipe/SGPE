@@ -33,6 +33,7 @@
             autosave_ask_before_unload: false,
             autosave_interval: "30s",
             content_style: "p{padding:0; margin:0;}",
+			height : "300",
         }); 
 	</script>
 @endpush

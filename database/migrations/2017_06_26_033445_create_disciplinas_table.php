@@ -14,15 +14,21 @@ class CreateDisciplinasTable extends Migration
     public function up()
     {
         Schema::create('disciplinas', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
+            
             $table->string('codigo', 10)->unique();
             $table->string('nome', 100);
             $table->string('name', 100);
-            $table->string('chsemestral')->nullable();
-            $table->string('chsemanalp')->nullable();
-            $table->string('chsemanalt')->nullable();
-            $table->integer('departamento_id')->unsigned();
+
+            $table->unsignedInteger('chsemestral');
+            $table->unsignedInteger('chsemanalp');
+            $table->unsignedInteger('chsemanalt');
+            $table->unsignedInteger('departamento_id');
+            
+            $table->text('ementa')->nullable();
+            $table->text('conteudo')->nullable();
+            $table->text('bibliografiab')->nullable();
+            $table->text('bibliografiac')->nullable();
             $table->timestamps();
         });
     }

@@ -3,11 +3,9 @@
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            
-            
+          
             @if( Auth::check() && Auth::user()->hasAnyRole(['Admin']))
               <li class="header">ADMINISTRAÇÂO</li>
               <li>
@@ -35,30 +33,41 @@
               </li>
 
               <li>
-                <a href="/turmas/"><i class="fa fa-users"></i> <span>Turmas</span></a>
-              </li>
-
-              <li>
-                <a href="/planos/"><i class="fa fa-file-text-o"></i> <span>Planos</span></a>
-              </li>
-
-              <li>
-                <a href="/aprovacao"><i class="fa fa-check-circle-o" aria-hidden="true"></i> <span>Aprovação de Planos</span></a>
+                <a href="/aprovacao"><i class="fa fa-check"></i> <span>Aprovação de Planos
+                <!-- 
+                $qtd gerado em \App\Providers\AppServiceProvider\view() e \App\Plano\esperando_analise() 
+                Para mais informações: https://laravel.com/docs/5.4/views#view-composers
+                -->
+                @if($qtdPlanAnalise > 0) 
+                <small class="label pull-right bg-yellow">{{$qtdPlanAnalise}}</small></span>
+                @endif 
+                </a>
               </li>
             
             @endif 
 
-            @if( Auth::check() && Auth::user()->onlyProfessor())
+            @if( Auth::check() && Auth::user()->hasRole(['Professor']))
                 <li class="header">PROFESSORES</li>
 
                 <li>
-                  <a href="/turmas/"><i class="fa fa-users"></i> <span>Turmas</span></a>
+                  <a href="/planos/create"><i class="fa fa-plus-circle"></i> <span>Novo Plano</span></a>
                 </li>
 
                 <li>
-                  <a href="/planos/"><i class="fa fa-file-text-o"></i> <span>Planos</span></a>
+                  <a href="/planos/"><i class="fa fa-file-text-o"></i> <span>Meus Planos</span>
+                  <!-- 
+                  $qtd gerado em \App\Providers\AppServiceProvider\view() e \App\Plano\planos_pendencia() 
+                  Para mais informações: https://laravel.com/docs/5.4/views#view-composers
+                  -->
+                  @if($qtdPlanPend > 0) 
+                  <small class="label pull-right bg-red">{{$qtdPlanPend}}</small></span>
+                  @endif 
+                  </a>
                 </li>
               
+                <li>
+                  <a href="/index_geral"><i class="fa fa-folder-open"></i> <span>Planos em Geral</span></a>
+                </li>
             @endif
             
         </ul><!-- /.sidebar-menu -->

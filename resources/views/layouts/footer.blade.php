@@ -5,5 +5,5 @@
         Versão 1.0
     </div>
     <!-- Default to the left -->
-    <strong>Sistema de Gerenciamento de Plano de Ensino <a href="#">UFOP/ICEA</a>.</strong>.
+    <strong>Sistema de Gerenciamento de Plano de Ensino <a href="#">UFOP/ICEA</a></strong>.
 </footer>

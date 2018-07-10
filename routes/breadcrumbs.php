@@ -128,27 +128,6 @@ Breadcrumbs::register('substituicaoId', function($breadcrumbs, $troca){
 
 //-------------------------------------------------------------------------------------->
 
-
-// Home > Turmas
-Breadcrumbs::register('turma', function($breadcrumbs){
-	$breadcrumbs->parent('home');
-	$breadcrumbs->push('Turmas', route('turmas.index'));
-});
-
-// Home > Turmas > Novo Turma
-Breadcrumbs::register('nturma', function($breadcrumbs){
-    $breadcrumbs->parent('turma');
-    $breadcrumbs->push('Nova Turma', route('turmas.create'));
-});
-
-// Home > Turmas > [turma]
-Breadcrumbs::register('turmaId', function($breadcrumbs, $turmaId){
-    $breadcrumbs->parent('turma');
-    $breadcrumbs->push($turmaId->numero_turma, route('turmas.edit', $turmaId->id));
-});
-
-//-------------------------------------------------------------------------------------->
-
 // Home > Planos
 Breadcrumbs::register('plano', function($breadcrumbs){
 	$breadcrumbs->parent('home');
@@ -173,7 +152,6 @@ Breadcrumbs::register('planoExport', function($breadcrumbs, $planoExport){
     $breadcrumbs->push('Exportação');
 });
 
-
 // Home > Planos > [plano] > Edição > Pendência
 Breadcrumbs::register('planoPend', function($breadcrumbs, $planoPend){
     $breadcrumbs->parent('planoEdit', $planoPend);
@@ -186,34 +164,10 @@ Breadcrumbs::register('planoExame', function($breadcrumbs, $planoExam){
     $breadcrumbs->push('Exame');
 });
 
-// Home > Planos > [plano] > Edição > Ementa
-Breadcrumbs::register('planoEmenta', function($breadcrumbs, $planoEmenta){
-    $breadcrumbs->parent('planoEdit', $planoEmenta);
-    $breadcrumbs->push('Ementa');
-});
-
-// Home > Planos > [plano] > Edição > Conteúdo
-Breadcrumbs::register('planoCont', function($breadcrumbs, $planoCont){
-    $breadcrumbs->parent('planoEdit', $planoCont);
-    $breadcrumbs->push('Conteúdo');
-});
-
-// Home > Planos > [plano] > Edição > Bibliografia
-Breadcrumbs::register('planoBib', function($breadcrumbs, $planoBib){
-    $breadcrumbs->parent('planoEdit', $planoBib);
-    $breadcrumbs->push('Bibliografia');
-});
-
 // Home > Planos > [plano] > Edição > Avaliação
 Breadcrumbs::register('planoAvaliac', function($breadcrumbs, $planoAvaliac){
     $breadcrumbs->parent('planoEdit', $planoAvaliac);
     $breadcrumbs->push('Avaliação');
-});
-
-// Home > Planos > [plano] > Edição > Atendimento
-Breadcrumbs::register('planoAtend', function($breadcrumbs, $planoAtend){
-    $breadcrumbs->parent('planoEdit', $planoAtend);
-    $breadcrumbs->push('Atendimento');
 });
 
 // Home > Planos > [plano] > Edição > Planejamento
@@ -227,13 +181,6 @@ Breadcrumbs::register('planoMetod', function($breadcrumbs, $planoMetod){
     $breadcrumbs->parent('planoEdit', $planoMetod);
     $breadcrumbs->push('Metodologia');
 });
-
-// Home > Planos > [plano] > Edição > Horário
-Breadcrumbs::register('planoHor', function($breadcrumbs, $planoHor){
-    $breadcrumbs->parent('planoEdit', $planoHor);
-    $breadcrumbs->push('Horário');
-});
-
 
 // Home > Planos > [plano] > Edição > Objetivo
 Breadcrumbs::register('planoObjt', function($breadcrumbs, $planoObjt){
@@ -269,3 +216,30 @@ Breadcrumbs::register('search_plano', function($breadcrumbs, $plano){
 });
 
 //-------------------------------------------------------------------------------------->
+
+// Home > Geral
+Breadcrumbs::register('geral', function($breadcrumbs){
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Geral', route('geral'));
+});
+
+// Home > Geral > [plano]
+Breadcrumbs::register('show', function($breadcrumbs, $planoId){
+    $breadcrumbs->parent('geral');
+    $breadcrumbs->push($planoId->turma->disciplina->codigo, route('planos.show', $planoId->id));
+});
+
+
+// Home > Novo Plano
+Breadcrumbs::register('nplano', function($breadcrumbs){
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Novo Plano', route('planos.create'));
+});
+
+
+// Home > Disciplina > Info
+Breadcrumbs::register('info', function($breadcrumbs, $disciplina){
+   $breadcrumbs->parent('disciplina');
+   $breadcrumbs->push('info: '. $disciplina->codigo, route('info', $disciplina->id));
+});
+

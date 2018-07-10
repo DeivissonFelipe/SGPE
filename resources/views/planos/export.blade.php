@@ -36,7 +36,7 @@
         $(document).ready(function(){
             $('.confirm_export').click(function(event){
                 var btnexport = $(this);
-                var msg = "Esta ação irá excluir todos os dados do plano de ensino: "+ $('#nomeOrign').html() +" [ "+ $("[name='pOrign']").attr('data-semestre')+"], e copiar os dados do plano: "+ $("[name='pDestiny']").find('option:selected').attr('data-nome') +" [ "+ $("[name='pDestiny']").find('option:selected').attr('data-semestre')+"] para o anterior. Tem certeza que deseja continuar?"
+                var msg = "Esta ação irá excluir todos os dados do plano de ensino: "+ $("[name='pDestiny']").find('option:selected').attr('data-nome') +" [ "+ $("[name='pDestiny']").find('option:selected').attr('data-semestre')+"], e copiar os dados do plano: "+ $('#nomeOrign').html() +" [ "+ $("[name='pOrign']").attr('data-semestre')+"] para o anterior. Tem certeza que deseja continuar?";
                 $('#modal-msg').html(msg);
                 $('#export_modal').show(); 
                 $('#export').off( "click").click(function(){

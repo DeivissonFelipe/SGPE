@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartamentoTableSeeder::class);
         $this->call(DisciplinaTableSeeder::class);
         $this->call(SemestreSeeder::class);
-        $this->call(PlanoSeeder::class);
+        // $this->call(PlanoSeeder::class);
     }
 }

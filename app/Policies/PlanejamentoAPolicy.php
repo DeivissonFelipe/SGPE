@@ -21,6 +21,6 @@ class PlanejamentoAPolicy
     {
         $pUser = $user->turmas()->pluck('turma_id')->toArray();
         $planA = $pAula->plano->turma_id;
-        return in_array($planA, $pUser);
+        return in_array($planA, $pUser) && ($pAula->plano->status == "Em Edição");
     }
 }

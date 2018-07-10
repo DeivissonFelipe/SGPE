@@ -34,7 +34,7 @@
                 <nav class="navbar navbar-static-top">
                     <div class="container">
                         <div class="navbar-header">
-                        <a href="{{ url('/search') }}" class="navbar-brand"><b>SGPE</b></a>
+                        <a href="{{ url('/index') }}" class="navbar-brand"><b>SGPE</b></a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
@@ -42,8 +42,8 @@
 
                         
                         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-                            <form class="navbar-form navbar-left" role="search" method="post" action="/search">
-                                {{ csrf_field() }}
+                            <form class="navbar-form navbar-left" role="search" method="get" action="/search">
+                                
                                 <div class="form-group">    
                                     <input type="text" class="form-control" id="navbar-search-input" name="busca">
                                 </div>

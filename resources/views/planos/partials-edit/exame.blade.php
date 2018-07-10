@@ -17,6 +17,12 @@
 @push('css')
 	<!-- Datepicker v1.7.1 -->
 	<link href="{{ asset('/jquery-ui-1.12.1.custom-ufop/jquery-ui.css')}}" rel="stylesheet" type="text/css" />
+
+	<style>
+    .datepicker-edit {
+      z-index: 1600 !important; /* has to be larger than 1050 */
+    }
+  </style>
 @endpush
      
 @push('javascript')
@@ -62,12 +68,41 @@
 				dateFormat: 'dd-mm-yy',
 				beforeShowDay: function(date) {
 					var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-					var fimSemana = jQuery.datepicker.noWeekends(date);	
-					return fimSemana[0] ? [$.inArray(string, diasNaoLetivos) == -1] : fimSemana[0];
+					var day = date.getDay();
+            		return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
         		}
 			});
 		});
 	</script>
+
+	<script type="text/javascript">
+		$('.modal').on('shown.bs.modal', function() {
+			var str = $(this).attr('id');
+			var res = str.split("-");
+			var datepickerid = "#datepicker-"+res[1];
+			
+			var d_inicio = {{\Carbon\Carbon::parse($semestre->inicio)->day}};
+			var m_inicio = {{\Carbon\Carbon::parse($semestre->inicio)->month}} - 1;
+			var y_inicio = {{\Carbon\Carbon::parse($semestre->inicio)->year}};
+			var d_fim = {{\Carbon\Carbon::parse($semestre->fim)->day}};
+			var m_fim = {{\Carbon\Carbon::parse($semestre->fim)->month}} - 1;
+			var y_fim = {{\Carbon\Carbon::parse($semestre->fim)->year}};
+			var diasNaoLetivos = {!!$diasNaoLetivos!!};
+			$(datepickerid).datepicker("destroy");
+			$(datepickerid).datepicker({
+			autoclose: true,
+			orientation: "bottom",
+			minDate: new Date(y_inicio,m_inicio,d_inicio),
+			maxDate: new Date(y_fim,m_fim,d_fim),
+			dateFormat: 'dd-mm-yy',
+			beforeShowDay: function(date) {
+				var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
+				var day = date.getDay();
+				return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
+			}
+			});
+		});
+  	</script>
 @endpush
 
 @section('edit-content')
@@ -90,7 +125,7 @@
 				<td>{{$e->data}}</td>
 				<td>{{$e->conteudo}}</td>
 
-				<td><a class="btn btn-ufop"  role="button" data-toggle="modal" data-target="#avaliacaoModal{{$e->id}}" data-toggle="tooltip" title="Editar"><i class="fa fa-pencil"></i></a></td>
+				<td><a class="btn btn-ufop"  role="button" data-toggle="modal" data-target="#avaliacaoModal-{{$e->id}}" data-toggle="tooltip" title="Editar"><i class="fa fa-pencil"></i></a></td>
 				<td>
 					<form method="post" action="/exames/{{ $e->id }}">
 						{{ method_field('DELETE') }}
@@ -102,7 +137,7 @@
 			</tr>
 
 			<!-- ********************************************************************************************* -->
-			<div class="modal fade" id="avaliacaoModal{{$e->id}}" role="dialog">
+			<div class="modal fade" id="avaliacaoModal-{{$e->id}}" role="dialog">
 			    <div class="modal-dialog">
 			      <div class="modal-content">
 			        <div class="modal-header">
@@ -124,7 +159,7 @@
 
 								<div class="form-group col-lg-4">
 									<label for="peso">Peso</label>
-									<input type="number" class="form-control" name="peso" id="peso" placeholder="Valor da avaliação" value="{{$e->peso}}"/>
+									<input type="number" class="form-control" name="peso" id="peso" placeholder="Valor da avaliação" value="{{$e->peso}}" min="0"/>
 								</div><!-- end form-group col-lg-4 -->
 
 								<div class="form-group col-lg-12">
@@ -138,7 +173,7 @@
 									  <div class="input-group-addon">
 									    <i class="fa fa-calendar"></i>
 									  </div><!-- end input-group-addon -->
-									  <input type="text" class="form-control pull-right date datepicker-me" id="data" name="data" value="{{$e->data}}">
+									  <input type="text" class="form-control pull-right date datepicker-edit" id="datepicker-{{$e->id}}" name="data" value="{{$e->data}}">
 									</div><!-- end input-group -->
 								</div><!-- end form-group col-lg-4 -->
 								
@@ -164,12 +199,12 @@
 			<input type="text" name="plano_id" value="{{$plano->id}}" hidden>
 			<div class="form-group col-md-3 col-lg-2">
 				<label for="descricao">Descrição</label>
-				<input type="text" class="form-control" name="descricao" id="descricao"/>
+				<input type="text" class="form-control" name="descricao" id="descricao" value="{{ old('descricao') }}"/>
 			</div><!-- end form-group col-lg-2 -->
 
 			<div class="form-group col-md-2 col-lg-2">
 				<label for="peso">Peso</label>
-				<input type="number" class="form-control" name="peso" id="peso"/>
+				<input type="number" class="form-control" name="peso" id="peso" min="0" value="{{ old('peso') }}"/>
 			</div><!-- end form-group col-lg-2 -->
 
 			<div class="form-group col-md-3 col-lg-2">
@@ -184,7 +219,7 @@
 					
 			<div class="form-group col-md-4 col-lg-4">
 				<label for="conteudo">Conteúdo</label>
-				<input type="text" class="form-control" name="conteudo" id="conteudo"/>
+				<input type="text" class="form-control" name="conteudo" id="conteudo" value="{{ old('conteudo') }}"/>
 			</div><!-- end form-group col-lg-4 -->
 
 			<div class="form-group col-md-auto col-lg-2">

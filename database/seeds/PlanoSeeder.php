@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Horario;
 use App\Plano;
 use App\Turma;
 use App\Exame;
@@ -15,9 +14,10 @@ class PlanoSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
+    public function run(){
+
         for($i = 1; $i < 15; $i++){
+            //<------------------Turma---------------------------->        
             $turma = new Turma();
             $turma->id = $i;
             $rand = rand(1, 36);
@@ -26,7 +26,8 @@ class PlanoSeeder extends Seeder
             $cursosDisciplina = \DB::table('disciplina_curso')->where('disciplina_id', '=', $rand)->pluck('curso_id')->toArray();
             $turma->curso_id = $cursosDisciplina[array_rand($cursosDisciplina, 1)];
             $turma->tipo_turma = '0';
-            //<---------------------------------------------->            
+            
+
 		    $qtd = count($cursosDisciplina);
             sort($cursosDisciplina);		    
             $contador = 1;
@@ -41,38 +42,21 @@ class PlanoSeeder extends Seeder
             $turma->numero_turma = $qtd . $contador;
             $turma->save();
             $turma->users()->sync(rand(6, 20), false); //linkando Professor
-        //<------------------Turma---------------------------->        
         
+            //<------------------Plano----------------------------> 
             $plano = new Plano();
             $plano->id = $i;
             $plano->status = 'Aprovado';
             $plano->tipo = '1';
             $plano->turma_id = $turma->id;
-            $plano->ementa ='<p style="text-align: left;">Apresentando a ementa estabelecida no programa da disciplina.</p>';
-            $plano->conteudo ='<p style="text-align: left;">Este &eacute; o conte&uacute;do program&aacute;tico Teste, nele voc&ecirc; pode especificar temas que comp&otilde;e a ementa da melhor forma que voc&ecirc; preferir.&nbsp;</p><ol><li style="text-align: left;">Seja atrav&eacute;s de listas</li><li style="text-align: left;">Ou paragrafos</li><li style="text-align: left;">em diferentes formatos</li></ol>';
+            
             $plano->objetivo = '<p style="text-align: left;">Esta se&ccedil;&atilde;o apresenta o objetivo da disciplina.</p>';
             $plano->metodologia = '<p style="text-align: left;">Aqui ser&aacute; apresentado a metodologia utilizada pelo professor para realiza&ccedil;&atilde;o das aulas.&nbsp;</p>';
             $plano->avaliacao = '<p>A disciplina ser&aacute; avaliada atrav&eacute;s de provas, listas de exerc&iacute;cios, trabalhos pr&aacute;ticos.</p>';
-            $plano->bibliografiab = '<p>Est&aacute; &eacute; a bibliografia B&aacute;sica.</p><ol><li>Livro 1,</li><li>Livro 2,</li><li>Livro 3,</li><li>Livro 4,</li><li>Livro 5.</li></ol>';
-            $plano->bibliografiac = '<p>Est&aacute; &eacute; a bibliografia complementar</p><ol><li>Livro 1</li><li>Livro 2</li><li>Livro 3</li><li>Livro 4</li><li>Livro 5</li><li>Livro 6</li><li>Livro 7</li></ol>';
             $plano->save();
-        //<------------------Plano---------------------------->        
-
-            $horario = new Horario();
-            $horario->dia = 'Segunda-Feira';
-            $horario->inicio = '13:30';
-            $horario->fim = '15:00';
-            $horario->plano_id = $i;
-            $horario->save();
-
-            $horario = new Horario();
-            $horario->dia = 'Quarta-Feira';
-            $horario->inicio = '15:30';
-            $horario->fim = '17:00';
-            $horario->plano_id = $i;
-            $horario->save();
-        //<------------------Horario---------------------------->        
-        
+            
+            
+            //<------------------Exames---------------------------->    
             $exame = new Exame();
             $exame->descricao ='Prova 1';
             $exame->peso ='20';
@@ -112,8 +96,8 @@ class PlanoSeeder extends Seeder
             $exame->conteudo ='Todo o conteúdo';
             $exame->plano_id = $i;
             $exame->save();
-        //<------------------Exames---------------------------->        
             
+            //<------------------Planejamento---------------------------->    
             $planejamento = new PlanejamentoAula();
             $planejamento->aula = '1';
             $planejamento->tipo = 'P';
@@ -161,7 +145,7 @@ class PlanoSeeder extends Seeder
             $planejamento->conteudo = 'Conteudo da aula 6';
             $planejamento->plano_id = $i;
             $planejamento->save();
-        //<------------------Planejamento---------------------------->        
+            
 
         }
         for($i = 1; $i <= 2; $i++){

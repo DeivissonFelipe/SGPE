@@ -21,10 +21,6 @@ class AddForeignKey extends Migration
             $table->foreign('turma_id')->references('id')->on('turmas')->onDelete('cascade');
         }); 
     
-        Schema::table('atendimentos', function(Blueprint $table){
-            $table->foreign('plano_id')->references('id')->on('planos')->onDelete('cascade');
-        }); 
-
         Schema::table('exames', function(Blueprint $table){
             $table->foreign('plano_id')->references('id')->on('planos')->onDelete('cascade');
         }); 
@@ -38,7 +34,7 @@ class AddForeignKey extends Migration
         });
     
         Schema::table('horarios', function(Blueprint $table){
-            $table->foreign('plano_id')->references('id')->on('planos')->onDelete('cascade');
+            $table->foreign('turma_id')->references('id')->on('turmas')->onDelete('cascade');
         });
         
         Schema::table('trocas', function(Blueprint $table){

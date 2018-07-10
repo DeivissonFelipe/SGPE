@@ -48,32 +48,43 @@
 	              	<div class="box-body">
 						<div class="form-group">
 							<label for="codigo">Código</label>
-							<input type="text" class="form-control" name="codigo" id="codigo" placeholder="Código da disciplina"/>
+							<input type="text" class="form-control" name="codigo" id="codigo" placeholder="Código da disciplina" value="{{ old('codigo') }}"/>
 						</div><!-- end form-group -->
 
 						<div class="form-group">
 							<label for="nome">Nome</label>
-							<input type="text" class="form-control" name="nome" id="nome" placeholder="Nome da disciplina"/>
+							<input type="text" class="form-control" name="nome" id="nome" placeholder="Nome da disciplina" value="{{ old('nome') }}"/>
 						</div><!-- end form-group -->
 						
 						<div class="form-group">
 							<label for="name">Name</label>
-							<input type="text" class="form-control" name="name" id="name" placeholder="Nome da disciplina em Inglês"/>
+							<input type="text" class="form-control" name="name" id="name" placeholder="Nome da disciplina em Inglês" value="{{ old('name') }}"/>
 						</div><!-- end form-group -->
 
 	  					<div class="form-group col-sm-4">
-							<label for="name">CHS</label>
-							<input type="number" class="form-control" name="chsemestral" id="chsemestral" placeholder="Horas" data-toggle="tooltip" title="Carga Horária Semestral"/>
+							<label for="chsemestral">Carga Horária Semestral</label>
+							<select name="chsemestral" class="form-control">
+								<option value="60">60</option>
+								<option value="30">30</option>
+							</select>
 						</div><!-- end form-group -->
 
 						<div class="form-group col-sm-4">
-							<label for="name">CH semanal teórica</label>
-							<input type="number" class="form-control" name="chsemanalp" id="chsemanalp" placeholder="Horas/Aula" data-toggle="tooltip" title="Carga Horária Semanal Teórica"/>
+							<label for="chsemanalt">CH semanal teórica</label>
+							<select name="chsemanalt" class="form-control">
+							 	@for ($i = 4; $i >= 0; $i--)
+									<option value="{{ $i }}">{{ $i }}</option>
+								@endfor
+							</select>
 						</div><!-- end form-group -->
-
+	  					
 						<div class="form-group col-sm-4">
-							<label for="name">CH semanal prática</label>
-							<input type="number" class="form-control" name="chsemanalt" id="chsemanalt" placeholder="Horas/Aula"  data-toggle="tooltip" title="Carga Horária Semanal Prática"/>
+							<label for="chsemanalp">CH semanal Prática</label>
+							<select name="chsemanalp" class="form-control">
+								@for ($i = 4; $i >= 0; $i--)
+									<option value="{{ $i }}">{{ $i }}</option>
+								@endfor
+							</select>
 						</div><!-- end form-group -->
 
 						<div class="form-group">
@@ -88,10 +99,11 @@
 						<div class="form-group">
 							<label style="margin-bottom: 15px;">Selecione os cursos para os quais a disciplina será ofertada</label>
 							<br>
-							<label><input type="checkbox" name="oferta[]" value="1"> Engenharia de Produção</label><br>
-							<label><input type="checkbox" name="oferta[]" value="2"> Sistemas de Informação</label><br>
-							<label><input type="checkbox" name="oferta[]" value="3"> Engenharia de Computação</label><br>
-							<label><input type="checkbox" name="oferta[]" value="4"> Engenharia Elétrica</label><br>
+							<label><input type="checkbox" name="oferta[]" {{ (is_array(old('oferta')) and in_array(1, old('oferta'))) ? ' checked' : '' }} value="1"> Engenharia de Produção</label><br>
+							<label><input type="checkbox" name="oferta[]" {{ (is_array(old('oferta')) and in_array(2, old('oferta'))) ? ' checked' : '' }} value="2"> Sistemas de Informação</label><br>
+							<label><input type="checkbox" name="oferta[]" {{ (is_array(old('oferta')) and in_array(3, old('oferta'))) ? ' checked' : '' }} value="3"> Engenharia de Computação</label><br>
+							<label><input type="checkbox" name="oferta[]" {{ (is_array(old('oferta')) and in_array(4, old('oferta'))) ? ' checked' : '' }} value="4"> Engenharia Elétrica</label><br>
+							
 						</div><!-- end form-group -->
 
 					</div><!-- end box-body -->				

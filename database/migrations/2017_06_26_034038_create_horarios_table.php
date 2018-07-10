@@ -15,10 +15,8 @@ class CreateHorariosTable extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('dia', 45);
-            $table->string('inicio', 45);
-            $table->string('fim', 45);
-            $table->integer('plano_id')->unsigned();
+            $table->unsignedInteger('dia');
+            $table->unsignedInteger('turma_id');
             $table->timestamps();
         });
     }

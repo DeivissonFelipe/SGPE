@@ -119,9 +119,9 @@
           maxDate: new Date(y_fim,m_fim,d_fim),
           dateFormat: 'dd-mm-yy',
           beforeShowDay: function(date) {
-              var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-              var fimSemana = jQuery.datepicker.noWeekends(date);	
-              return fimSemana[0] ? [$.inArray(string, diasNaoLetivos) == -1] : fimSemana[0];
+            var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
+            var day = date.getDay();
+            return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
           }
         });
     });
@@ -148,9 +148,9 @@
 				dateFormat: 'dd-mm-yy',
 				beforeShowDay: function(date) {
 					var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-					var fimSemana = jQuery.datepicker.noWeekends(date);	
-					return fimSemana[0] ? [$.inArray(string, diasNaoLetivos) == -1] : fimSemana[0];
-        		}
+					var day = date.getDay();
+					return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
+        }
 			});
 		});
 	</script>
@@ -227,14 +227,14 @@
                         
                         <div class="form-group col-lg-4">
                           <label for="aula">Aula</label>
-                          <input type="number" class="form-control" name="aula" id="aula" value="{{ $p->aula }}"/>
+                          <input type="number" class="form-control" name="aula" id="aula" value="{{ $p->aula }}" min="1"/>
                         </div><!-- end form-group col-lg-2 -->
 
                         <div class="form-group col-lg-4">
                           <label for="tipo">Tipo</label>
                           <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="tipo" value="{{ $p->tipo }}">
                           @php 
-                            $array = ['P','T','P/T'];
+                            $array = ['T','P','P/T'];
                             foreach($array as $a){
 									            if($a == $p->tipo){
                           @endphp
@@ -242,7 +242,7 @@
                           @php 
                               }else{
                           @endphp
-                              <option value="{{$p->tipo}}" selected>{{$p->tipo}}</option>
+                              <option value="{{$a}}">{{$a}}</option>
                           @php 
                               }
                             }
@@ -289,7 +289,7 @@
           
           <div class="form-group col-md-2 col-lg-2">
             <label for="aula">Aula</label>
-            <input type="number" class="form-control" name="aula" id="aula"/>
+            <input type="number" class="form-control" name="aula" id="aula" min="1" value="{{ old('aula') }}"/>
           </div><!-- end form-group col-md-2 col-lg-2 -->
           
           <div class="form-group col-lg-2">
@@ -313,7 +313,7 @@
 
           <div class="form-group col-md-3 col-lg-4">
             <label for="conteudo">Conteúdo</label>
-            <input type="text" class="form-control" name="conteudo" id="conteudo"/>
+            <input type="text" class="form-control" name="conteudo" id="conteudo" value="{{ old('conteudo') }}"/>
           </div><!-- end form-group col-md-3 col-lg-4 -->
 
           <div class="form-group col-md-2 col-lg-2">
@@ -325,7 +325,7 @@
     </div><!-- end box-body -->
   </div><!-- end box box-primary-ufop collapsed-box -->
 
-  <!-- ---------------------- ---------------------- -->
+  
 
   <div class="box box-primary-ufop" id="divPlanUnidade">
     <div class="box-header with-border">
@@ -382,7 +382,7 @@
 
                         <div class="form-group col-lg-6">
                           <label for="unidade">Unidade</label>
-                          <input type="number" class="form-control" name="unidade" id="unidade" value="{{ $p->unidade}}"/>
+                          <input type="number" class="form-control" name="unidade" id="unidade" value="{{ $p->unidade}}" min="1"/>
                         </div><!-- end form-group col-lg-2 -->
 
                         <div class="form-group col-lg-6">
@@ -416,17 +416,17 @@
           <input type="text" name="plano_id" value="{{$plano->id}}" hidden>
           <div class="form-group col-md-2 col-lg-2">
             <label for="unidade">Unidade</label>
-            <input type="number" class="form-control" name="unidade" id="unidade"/>
+            <input type="number" class="form-control" name="unidade" id="unidade" min="1" value="{{ old('unidade') }}"/>
           </div><!-- end form-group col-lg-2 -->
 
           <div class="form-group col-md-2 col-lg-2">
             <label for="hora_aula">Hora-aula</label>
-            <input type="text" class="form-control" name="hora_aula" id="hora_aula"/>
+            <input type="text" class="form-control" name="hora_aula" id="hora_aula" value="{{ old('hora_aula') }}"/>
           </div><!-- end form-group col-lg-2 -->
 
           <div class="form-group col-md-5 col-lg-6">
             <label for="descricao">Descrição</label>
-            <input type="text" class="form-control" name="descricao" id="descricao"/>
+            <input type="text" class="form-control" name="descricao" id="descricao" value="{{ old('descricao') }}"/>
           </div><!-- end form-group col-lg-6 -->
 
           <div class="form-group col-md-3 col-lg-2">

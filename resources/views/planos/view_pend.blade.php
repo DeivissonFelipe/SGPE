@@ -24,9 +24,16 @@
                 </div><!-- end box-header -->
                 <div class="box-body">
                     @foreach($pendencias as $pend)
-                    <div class="well">
-                        <div class="pull-right">{{ Carbon\Carbon::parse($pend->created_at)->format('d-m-Y / H:i') }}</div><br><br>
-                        {!!$pend->pendencia!!}
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            {!!$pend->pendencia!!}
+                        </div>
+                        <div class="panel-footer" >
+                            <span style="float:right">
+                                {{ Carbon\Carbon::parse($pend->created_at)->format('d/m/y [H:i]') }}
+                            </span>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
 					@endforeach
                 </div>

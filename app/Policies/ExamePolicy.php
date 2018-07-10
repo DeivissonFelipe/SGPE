@@ -20,6 +20,6 @@ class ExamePolicy
     public function crud(User $user, Exame $exame){
         $pUser = $user->turmas()->pluck('turma_id')->toArray();
         $pExame = $exame->plano->turma_id;
-        return in_array($pExame, $pUser);
+        return in_array($pExame, $pUser) && ($exame->plano->status == "Em Edição");
     }
 }

@@ -14,8 +14,7 @@
 	<!-- Datepicker v1.7.1 -->
 	<script src="{{ asset ('/jquery-ui-1.12.1.custom-ufop/jquery-ui.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
-		$(document).ready(function()
-		{
+		$(document).ready(function(){
 			var d_inicio = {{\Carbon\Carbon::parse($semestres->first()->inicio)->day}};
 			var m_inicio = {{\Carbon\Carbon::parse($semestres->first()->inicio)->month}} - 1;
 			var y_inicio = {{\Carbon\Carbon::parse($semestres->first()->inicio)->year}};
@@ -32,8 +31,8 @@
 				dateFormat: 'dd-mm-yy',
 				beforeShowDay: function(date) {
 					var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-					var fimSemana = jQuery.datepicker.noWeekends(date);	
-					return fimSemana[0] ? [$.inArray(string, diasNaoLetivos) == -1] : fimSemana[0];
+					var day = date.getDay();
+					return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
         		}
 			});
 		});
@@ -61,12 +60,18 @@
 					dateFormat: 'dd-mm-yy',
 					beforeShowDay: function(date) {
 						var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-						var fimSemana = jQuery.datepicker.noWeekends(date);	
-						return fimSemana[0] ? [$.inArray(string, data.diasNaoLetivos) == -1] : fimSemana[0];
+						var day = date.getDay();
+						return (day != 0) ? [$.inArray(string, data.diasNaoLetivos) == -1] : [false];
 					}
 				});
 			});
 		});
+	</script>
+	<!-- Select2 v4.0.5-->
+	<script src="{{ asset ('/bower_components/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{ asset ('/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+	<script type="text/javascript">
+		$(".select2").select2();
 	</script>
 @endpush
 
@@ -127,6 +132,7 @@
 							<option>Quarta-Feira</option>
 							<option>Quinta-Feira</option>
 							<option>Sexta-Feira</option>
+							<option>Sábado</option>
 							</select>
 						</div><!-- end form-group -->
 						

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlanAulaRequest extends FormRequest
+class UpdatePlanAulaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -41,7 +41,7 @@ class PlanAulaRequest extends FormRequest
         return [
             'aula' => 'required|max:255',
             'tipo' => 'required',
-            'data' => 'required|date|pertence_plano:plano_id|dia_semana|not_exists:feriados,data|dia_n_lecionado:plano_id,data|campo_unico:planejamento_aulas,data,plano_id',
+            'data' => 'required|date|pertence_plano:plano_id|dia_semana|not_exists:feriados,data|dia_n_lecionado:plano_id,data',
             'conteudo' => 'required',
             'plano_id' => 'required|exists:planos,id',
         ];
@@ -59,7 +59,6 @@ class PlanAulaRequest extends FormRequest
             'data.pertence_plano' => 'O campo :attribute não pertence ao semestre selecionado.',
             'data.dia_semana' => 'O campo :attribute selecionado não é um dia de semana.',
             'data.not_exists' => 'O campo :attribute selecionado é um feriado e/ou dia não letivo.',
-            'data.campo_unico' => 'O campo :attribute selecionado já se encontra registrado na tabela de planejamentos.',
             'data.dia_n_lecionado' => 'O campo :attribute selecionado não pertence aos dias em que esta turma possui aulas. Por favor, selecione outro dia ou acrescente o dia da semana nas configurações do plano.',
 
             'conteudo.required' => 'O campo :attribute é obrigatório',
@@ -67,5 +66,4 @@ class PlanAulaRequest extends FormRequest
             'plano_id.exists' => 'Plano de ensino inexistente.',
         ];
     }
-
 }

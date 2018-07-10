@@ -177,4 +177,170 @@ class DisciplinaTest extends TestCase{
             
         $this->assertDatabaseMissing('disciplinas', ['id' => $disciplina->id]);
     }
+    public function test_route_info(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Admin']));
+        
+        $departamento = factory(\App\Departamento::class)->create([
+            'sigla' => 'DECSI',
+            'nome' => 'Departamento de Computação e Sistemas'
+        ]);
+
+        $curso = factory(\App\Curso::class)->create([
+            'nome' => 'Sistemas de Informação',
+            'sigla' => 'SI'
+        ]);
+
+        $disciplina = factory(\App\Disciplina::class)->create([
+            'codigo' => 'CSI030',
+            'nome' => 'PROGRAMACAO DE COMPUTADORES',
+            'name' => 'COMPUTER PROGRAMMING',
+            'chsemestral'=>'60',
+            'chsemanalp'=>'2',
+            'chsemanalt'=>'2',
+            'departamento_id' => $departamento->id
+        ]);
+        $disciplina->cursos()->attach($curso);
+
+        $response = $this->actingAs($user)->json('GET', 'disciplinas/'.$disciplina->id.'/info')
+                        ->assertStatus(200)
+                        ->assertViewIs('disciplinas.info')
+                        ->assertViewHas('disciplina');
+    }
+    public function test_route_disciplina_conteudo_post(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Admin']));
+        
+        $departamento = factory(\App\Departamento::class)->create([
+            'sigla' => 'DECSI',
+            'nome' => 'Departamento de Computação e Sistemas'
+        ]);
+
+        $curso = factory(\App\Curso::class)->create([
+            'nome' => 'Sistemas de Informação',
+            'sigla' => 'SI'
+        ]);
+
+        $disciplina = factory(\App\Disciplina::class)->create([
+            'codigo' => 'CSI030',
+            'nome' => 'PROGRAMACAO DE COMPUTADORES',
+            'name' => 'COMPUTER PROGRAMMING',
+            'chsemestral'=>'60',
+            'chsemanalp'=>'2',
+            'chsemanalt'=>'2',
+            'departamento_id' => $departamento->id
+        ]);
+        $disciplina->cursos()->attach($curso);
+
+        $conteudo = ['conteudo' => "Campo de conteudo", 'disciplina_id' => $disciplina->id];
+        $response = $this->actingAs($user)->json('POST', 'disciplinas/conteudo', $conteudo)
+                        ->assertStatus(302)
+                        ->assertRedirect('/disciplinas/'.$disciplina->id.'/info#conteudo');
+
+        $disciplina_retrieved = \App\Disciplina::find($disciplina->id);
+        $this->assertEquals('Campo de conteudo', $disciplina_retrieved->conteudo);
+        $response->assertSessionHas('disciplina', $disciplina_retrieved);       
+    }
+    public function test_route_disciplina_ementa_post(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Admin']));
+        
+        $departamento = factory(\App\Departamento::class)->create([
+            'sigla' => 'DECSI',
+            'nome' => 'Departamento de Computação e Sistemas'
+        ]);
+
+        $curso = factory(\App\Curso::class)->create([
+            'nome' => 'Sistemas de Informação',
+            'sigla' => 'SI'
+        ]);
+
+        $disciplina = factory(\App\Disciplina::class)->create([
+            'codigo' => 'CSI030',
+            'nome' => 'PROGRAMACAO DE COMPUTADORES',
+            'name' => 'COMPUTER PROGRAMMING',
+            'chsemestral'=>'60',
+            'chsemanalp'=>'2',
+            'chsemanalt'=>'2',
+            'departamento_id' => $departamento->id
+        ]);
+        $disciplina->cursos()->attach($curso);
+
+        $ementa = ['ementa' => "Campo de ementa", 'disciplina_id' => $disciplina->id];
+        $response = $this->actingAs($user)->json('POST', 'disciplinas/ementa', $ementa)
+                        ->assertStatus(302)
+                        ->assertRedirect('/disciplinas/'.$disciplina->id.'/info#ementa');
+
+        $disciplina_retrieved = \App\Disciplina::find($disciplina->id);
+        $this->assertEquals('Campo de ementa', $disciplina_retrieved->ementa);
+        $response->assertSessionHas('disciplina', $disciplina_retrieved);
+    }
+    public function test_route_disciplina_bibliografiab_post(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Admin']));
+        
+        $departamento = factory(\App\Departamento::class)->create([
+            'sigla' => 'DECSI',
+            'nome' => 'Departamento de Computação e Sistemas'
+        ]);
+
+        $curso = factory(\App\Curso::class)->create([
+            'nome' => 'Sistemas de Informação',
+            'sigla' => 'SI'
+        ]);
+
+        $disciplina = factory(\App\Disciplina::class)->create([
+            'codigo' => 'CSI030',
+            'nome' => 'PROGRAMACAO DE COMPUTADORES',
+            'name' => 'COMPUTER PROGRAMMING',
+            'chsemestral'=>'60',
+            'chsemanalp'=>'2',
+            'chsemanalt'=>'2',
+            'departamento_id' => $departamento->id
+        ]);
+        $disciplina->cursos()->attach($curso);
+
+        $bibliografiab = ['bibliografiab' => "Campo de bibliografiab", 'disciplina_id' => $disciplina->id];
+        $response = $this->actingAs($user)->json('POST', 'disciplinas/bibliografiab', $bibliografiab)
+                        ->assertStatus(302)
+                        ->assertRedirect('/disciplinas/'.$disciplina->id.'/info#bibb');
+
+        $disciplina_retrieved = \App\Disciplina::find($disciplina->id);
+        $this->assertEquals('Campo de bibliografiab', $disciplina_retrieved->bibliografiab);
+        $response->assertSessionHas('disciplina', $disciplina_retrieved);
+    }
+    public function test_route_disciplina_bibliografiac_post(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Admin']));
+        
+        $departamento = factory(\App\Departamento::class)->create([
+            'sigla' => 'DECSI',
+            'nome' => 'Departamento de Computação e Sistemas'
+        ]);
+
+        $curso = factory(\App\Curso::class)->create([
+            'nome' => 'Sistemas de Informação',
+            'sigla' => 'SI'
+        ]);
+
+        $disciplina = factory(\App\Disciplina::class)->create([
+            'codigo' => 'CSI030',
+            'nome' => 'PROGRAMACAO DE COMPUTADORES',
+            'name' => 'COMPUTER PROGRAMMING',
+            'chsemestral'=>'60',
+            'chsemanalp'=>'2',
+            'chsemanalt'=>'2',
+            'departamento_id' => $departamento->id
+        ]);
+        $disciplina->cursos()->attach($curso);
+
+        $bibliografiac = ['bibliografiac' => "Campo de bibliografiac", 'disciplina_id' => $disciplina->id];
+        $response = $this->actingAs($user)->json('POST', 'disciplinas/bibliografiac', $bibliografiac)
+                        ->assertStatus(302)
+                        ->assertRedirect('/disciplinas/'.$disciplina->id.'/info#bibc');
+
+        $disciplina_retrieved = \App\Disciplina::find($disciplina->id);
+        $this->assertEquals('Campo de bibliografiac', $disciplina_retrieved->bibliografiac);
+        $response->assertSessionHas('disciplina', $disciplina_retrieved);
+    }
 }

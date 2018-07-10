@@ -33,16 +33,16 @@
             autosave_ask_before_unload: false,
             autosave_interval: "30s",
             content_style: "p{padding:0; margin:0;}",
+			height : "300",
         }); 
 	</script>
 @endpush
 
 @section('edit-content')
 <div class="tab-pane" id="metodologia">
-	<div class="alert alert-info alert-dismissible">
+	<h4>
 		<span>Apresentar o conjunto das ações a serem desenvolvidas durante o semestre letivo para desenvolver o conteúdo programático e alcançar os objetivos propostos.</span>
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	</div>
+	</h4>
 	<br>
 	<form role="form" action="/planos/metodologia" method="post"> 
 		{{ csrf_field() }}

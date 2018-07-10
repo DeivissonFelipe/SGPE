@@ -18,7 +18,7 @@ class CreatePlanUnidTable extends Migration
             $table->string('unidade');
             $table->string('hora_aula', 45);
             $table->string('descricao');
-            $table->integer('plano_id')->unsigned();
+            $table->unsignedInteger('plano_id');
             $table->timestamps();
         });
     }

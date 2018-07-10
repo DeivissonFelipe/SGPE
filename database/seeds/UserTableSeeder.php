@@ -21,7 +21,6 @@ class UserTableSeeder extends Seeder
         //     DB::table('users')->insert([
         //         'name' => $faker->name,
         //         'email' => $faker->unique()->freeEmail, 
-        //         'matricula' => $faker->randomNumber(6),
         //         'password' => bcrypt(str_random(10)),
         //     ]);
         // }
@@ -29,7 +28,6 @@ class UserTableSeeder extends Seeder
         $admin = new User();
         $admin->name = 'Administrador1';
         $admin->email = 'admin1@ufop.com';
-        $admin->matricula = '0000001';
         $admin->password = bcrypt('1234');
         $admin->save();
         $admin->roles()->attach($role_admin);
@@ -38,7 +36,6 @@ class UserTableSeeder extends Seeder
         $admin2 = new User();
         $admin2->name = 'Administrador2';
         $admin2->email = 'admin2@ufop.com';
-        $admin2->matricula = '0000002';
         $admin2->password = bcrypt('1234');
         $admin2->save();
         $admin2->roles()->attach($role_admin);
@@ -47,7 +44,6 @@ class UserTableSeeder extends Seeder
         $admin3 = new User();
         $admin3->name = 'Administrador3';
         $admin3->email = 'admin3@ufop.com';
-        $admin3->matricula = '0000003';
         $admin3->password = bcrypt('1234');
         $admin3->save();
         $admin3->roles()->attach($role_admin);
@@ -56,7 +52,6 @@ class UserTableSeeder extends Seeder
         $admin4 = new User();
         $admin4->name = 'Administrador4';
         $admin4->email = 'admin4@ufop.com';
-        $admin4->matricula = '0000004';
         $admin4->password = bcrypt('1234');
         $admin4->save();
         $admin4->roles()->attach($role_admin);
@@ -65,7 +60,6 @@ class UserTableSeeder extends Seeder
         $admin5 = new User();
         $admin5->name = 'Administrador5';
         $admin5->email = 'admin5@ufop.com';
-        $admin5->matricula = '0000005';
         $admin5->password = bcrypt('1234');
         $admin5->save();
         $admin5->roles()->attach($role_admin);
@@ -76,7 +70,6 @@ class UserTableSeeder extends Seeder
         $professor = new User();
         $professor->name = 'Professor1';
         $professor->email = 'professor1@ufop.com';
-        $professor->matricula = '0000006';
         $professor->password = bcrypt('1234');
         $professor->save();
         $professor->roles()->attach($role_professor);
@@ -84,7 +77,6 @@ class UserTableSeeder extends Seeder
         $professor2 = new User();
         $professor2->name = 'Professor2';
         $professor2->email = 'professor2@ufop.com';
-        $professor2->matricula = '0000007';
         $professor2->password = bcrypt('1234');
         $professor2->save();
         $professor2->roles()->attach($role_professor);
@@ -92,7 +84,6 @@ class UserTableSeeder extends Seeder
         $professor3 = new User();
         $professor3->name = 'Professor3';
         $professor3->email = 'professor3@ufop.com';
-        $professor3->matricula = '0000008';
         $professor3->password = bcrypt('1234');
         $professor3->save();
         $professor3->roles()->attach($role_professor);
@@ -100,7 +91,6 @@ class UserTableSeeder extends Seeder
         $professor4 = new User();
         $professor4->name = 'Professor4';
         $professor4->email = 'professor4@ufop.com';
-        $professor4->matricula = '0000009';
         $professor4->password = bcrypt('1234');
         $professor4->save();
         $professor4->roles()->attach($role_professor);
@@ -108,7 +98,6 @@ class UserTableSeeder extends Seeder
         $professor5 = new User();
         $professor5->name = 'Professor5';
         $professor5->email = 'professor5@ufop.com';
-        $professor5->matricula = '0000010';
         $professor5->password = bcrypt('1234');
         $professor5->save();
         $professor5->roles()->attach($role_professor);
@@ -116,7 +105,6 @@ class UserTableSeeder extends Seeder
         $professor6 = new User();
         $professor6->name = 'Professor6';
         $professor6->email = 'professor6@ufop.com';
-        $professor6->matricula = '0000011';
         $professor6->password = bcrypt('1234');
         $professor6->save();
         $professor6->roles()->attach($role_professor);
@@ -124,7 +112,6 @@ class UserTableSeeder extends Seeder
         $professor7 = new User();
         $professor7->name = 'Professor7';
         $professor7->email = 'professor7@ufop.com';
-        $professor7->matricula = '0000012';
         $professor7->password = bcrypt('1234');
         $professor7->save();
         $professor7->roles()->attach($role_professor);
@@ -132,7 +119,6 @@ class UserTableSeeder extends Seeder
         $professor8 = new User();
         $professor8->name = 'Professor8';
         $professor8->email = 'professor8@ufop.com';
-        $professor8->matricula = '0000013';
         $professor8->password = bcrypt('1234');
         $professor8->save();
         $professor8->roles()->attach($role_professor);
@@ -140,7 +126,6 @@ class UserTableSeeder extends Seeder
         $professor9 = new User();
         $professor9->name = 'Professor9';
         $professor9->email = 'professor9@ufop.com';
-        $professor9->matricula = '0000014';
         $professor9->password = bcrypt('1234');
         $professor9->save();
         $professor9->roles()->attach($role_professor);
@@ -148,7 +133,6 @@ class UserTableSeeder extends Seeder
         $professor10 = new User();
         $professor10->name = 'Professor10';
         $professor10->email = 'professor10@ufop.com';
-        $professor10->matricula = '0000015';
         $professor10->password = bcrypt('1234');
         $professor10->save();
         $professor10->roles()->attach($role_professor);
@@ -156,7 +140,6 @@ class UserTableSeeder extends Seeder
         $professor11 = new User();
         $professor11->name = 'Professor11';
         $professor11->email = 'professor11@ufop.com';
-        $professor11->matricula = '0000016';
         $professor11->password = bcrypt('1234');
         $professor11->save();
         $professor11->roles()->attach($role_professor);
@@ -164,7 +147,6 @@ class UserTableSeeder extends Seeder
         $professor12 = new User();
         $professor12->name = 'Professor12';
         $professor12->email = 'professor12@ufop.com';
-        $professor12->matricula = '0000017';
         $professor12->password = bcrypt('1234');
         $professor12->save();
         $professor12->roles()->attach($role_professor);
@@ -172,7 +154,6 @@ class UserTableSeeder extends Seeder
         $professor13 = new User();
         $professor13->name = 'Professor13';
         $professor13->email = 'professor13@ufop.com';
-        $professor13->matricula = '0000018';
         $professor13->password = bcrypt('1234');
         $professor13->save();
         $professor13->roles()->attach($role_professor);
@@ -180,7 +161,6 @@ class UserTableSeeder extends Seeder
         $professor14 = new User();
         $professor14->name = 'Professor14';
         $professor14->email = 'professor14@ufop.com';
-        $professor14->matricula = '0000019';
         $professor14->password = bcrypt('1234');
         $professor14->save();
         $professor14->roles()->attach($role_professor);
@@ -188,7 +168,6 @@ class UserTableSeeder extends Seeder
         $professor15 = new User();
         $professor15->name = 'Professor15';
         $professor15->email = 'professor15@ufop.com';
-        $professor15->matricula = '0000020';
         $professor15->password = bcrypt('1234');
         $professor15->save();
         $professor15->roles()->attach($role_professor);
@@ -196,7 +175,6 @@ class UserTableSeeder extends Seeder
         $professor16 = new User();
         $professor16->name = 'Professor16';
         $professor16->email = 'professor16@ufop.com';
-        $professor16->matricula = '0000021';
         $professor16->password = bcrypt('1234');
         $professor16->save();
         $professor16->roles()->attach($role_professor);
@@ -204,7 +182,6 @@ class UserTableSeeder extends Seeder
         $professor17 = new User();
         $professor17->name = 'Professor17';
         $professor17->email = 'professor17@ufop.com';
-        $professor17->matricula = '0000022';
         $professor17->password = bcrypt('1234');
         $professor17->save();
         $professor17->roles()->attach($role_professor);
@@ -212,7 +189,6 @@ class UserTableSeeder extends Seeder
         $professor18 = new User();
         $professor18->name = 'Professor18';
         $professor18->email = 'professor18@ufop.com';
-        $professor18->matricula = '0000023';
         $professor18->password = bcrypt('1234');
         $professor18->save();
         $professor18->roles()->attach($role_professor);
@@ -220,7 +196,6 @@ class UserTableSeeder extends Seeder
         $professor19 = new User();
         $professor19->name = 'Professor19';
         $professor19->email = 'professor19@ufop.com';
-        $professor19->matricula = '0000024';
         $professor19->password = bcrypt('1234');
         $professor19->save();
         $professor19->roles()->attach($role_professor);
@@ -228,7 +203,6 @@ class UserTableSeeder extends Seeder
         $professor20 = new User();
         $professor20->name = 'Professor20';
         $professor20->email = 'professor20@ufop.com';
-        $professor20->matricula = '0000025';
         $professor20->password = bcrypt('1234');
         $professor20->save();
         $professor20->roles()->attach($role_professor);

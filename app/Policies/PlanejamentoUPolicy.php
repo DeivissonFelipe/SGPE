@@ -21,6 +21,6 @@ class PlanejamentoUPolicy
     {
         $pUser = $user->turmas()->pluck('turma_id')->toArray();
         $planU = $pUnid->plano->turma_id;
-        return in_array($planU, $pUser);
+        return in_array($planU, $pUser) && ($pUnid->plano->status == "Em Edição");
     }
 }

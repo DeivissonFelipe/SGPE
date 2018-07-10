@@ -34,16 +34,16 @@
             autosave_ask_before_unload: false,
             autosave_interval: "30s",
             content_style: "p{padding:0; margin:0;}",
+			height : "300",
         }); 
 	</script>
 @endpush
 
 @section('edit-content')
 <div class="tab-pane" id="avaliacao">
-	<div class="alert alert-info alert-dismissible">
+	<h4>
 		<span>Descrever os procedimentos que serão utilizados para avaliação da aprendizagem dos estudantes.</span>
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	</div>
+	</h4>
 	<br>
 	<form role="form" action="/planos/avaliacao" method="post"> 
 		{{ csrf_field() }}

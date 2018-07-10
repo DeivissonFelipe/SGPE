@@ -75,18 +75,43 @@
 						</div><!-- end form-group -->
 						
 						<div class="form-group col-sm-4">
-							<label for="name">CHS</label>
-							<input type="number" class="form-control" name="chsemestral" id="chsemestral" placeholder="Horas" data-toggle="tooltip" title="Carga Horária Semestral" value="{{$disciplina->chsemestral}}"/>
+							<label for="chsemestral">Carga Horária Semestral</label>
+							<select name="chsemestral" class="form-control">
+								@if($disciplina->chsemestral == 60)
+									<option value="60" selected>60</option>
+									<option value="30">30</option>
+								@else
+									<option value="60">60</option>
+									<option value="30" selected>30</option>
+								@endif
+								
+							</select>
 						</div><!-- end form-group -->
 
 						<div class="form-group col-sm-4">
-							<label for="name">CH semanal teórica</label>
-							<input type="number" class="form-control" name="chsemanalp" id="chsemanalp" placeholder="Horas/Aula" data-toggle="tooltip" title="Carga Horária Semanal Teórica" value="{{$disciplina->chsemanalt}}"/>
+							<label for="chsemanalt">CH semanal teórica</label>
+							<select name="chsemanalt" class="form-control">
+								@for ($i = 4; $i >= 0; $i--)
+									@if($i == $disciplina->chsemanalt)
+										<option value="{{$i}}" selected>{{$i}}</option>
+									@else
+										<option value="{{$i}}">{{$i}}</option>
+									@endif
+								@endfor
+							</select>
 						</div><!-- end form-group -->
-
+	  					
 						<div class="form-group col-sm-4">
-							<label for="name">CH semanal prática</label>
-							<input type="number" class="form-control" name="chsemanalt" id="chsemanalt" placeholder="Horas/Aula"  data-toggle="tooltip" title="Carga Horária Semanal Prática" value="{{$disciplina->chsemanalp}}"/>
+							<label for="chsemanalp">CH semanal Prática</label>
+							<select name="chsemanalp" class="form-control">
+								@for ($i = 4; $i >= 0; $i--)
+									@if($i == $disciplina->chsemanalp)
+										<option value="{{$i}}" selected>{{$i}}</option>
+									@else
+										<option value="{{$i}}">{{$i}}</option>
+									@endif
+								@endfor
+							</select>
 						</div><!-- end form-group -->
 
 						<div class="form-group">

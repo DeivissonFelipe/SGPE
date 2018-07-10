@@ -17,6 +17,7 @@ class FeriadoRequest extends FormRequest
         return true;
     }
 
+
     public function all()
     {
         $input = parent::all();
@@ -34,7 +35,7 @@ class FeriadoRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|date|pertence:semestre_id|unique:feriados',
+            'data' => 'required|date|pertence:semestre_id|unique:feriados|not_exists:trocas,dia',
             'semestre_id' => 'required| exists:semestres,id',
         ];
     }
@@ -44,11 +45,11 @@ class FeriadoRequest extends FormRequest
         return [
             'data.required' => 'O campo :attribute é obrigatório',
             'data.date' => 'O campo :attribute não está no formato correto.',
-            'data.pertence' => 'O campo :attribute não pertence ao semestre selecionado.',
+            'data.pertence' => 'O campo :attribute não pertence ao semestre selecionado e/ou não está no formato correto.',
             'data.unique' => 'O dia selecionado no campo :attribute já está registrado no banco de dados.',
+            'data.not_exists' => 'O dia selecionado no campo :attribute já está registrado na tabela de substituição de dias letivos.',
             'semestre_id.required' => 'O campo :attribute não foi selecionado corretamente.',
-            'semestre_id.exists' => 'Semestre inexistente.',
-            
+            'semestre_id.exists' => 'Semestre inexistente.',  
         ];
     }
 }

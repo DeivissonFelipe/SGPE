@@ -24,7 +24,8 @@ class UpdateDepartamentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'sigla' => 'required||max:255',
+            'nome' => 'required|max:255',
+            'sigla' => 'required|max:255',
         ];
     }
 
@@ -32,6 +33,8 @@ class UpdateDepartamentoRequest extends FormRequest
     public function messages()
     {
         return [
+            'nome.required' =>'O campo :attribute é obrigatório.',
+            'nome.max' => 'O campo :attribute atingiu o limite de caracteres.',
             'sigla.required' => 'O campo :attribute é obrigatório.',
             'sigla.max' => 'O campo :attribute atingiu o limite de caracteres.',
         ];

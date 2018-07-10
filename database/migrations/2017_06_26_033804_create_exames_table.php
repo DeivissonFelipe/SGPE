@@ -16,10 +16,10 @@ class CreateExamesTable extends Migration
         Schema::create('exames', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descricao');
-            $table->integer('peso')->nullable();
+            $table->unsignedInteger('peso');
             $table->date('data')->nullable();
             $table->string('conteudo');
-            $table->integer('plano_id')->unsigned();
+            $table->unsignedInteger('plano_id');
             $table->timestamps();
         });
     }

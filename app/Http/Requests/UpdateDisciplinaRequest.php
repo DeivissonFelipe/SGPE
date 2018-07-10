@@ -27,9 +27,9 @@ class UpdateDisciplinaRequest extends FormRequest
             'codigo' => 'required|max:255',
             'nome' => 'required|max:255',
             'name' => 'required|max:255',
-            'chsemestral'=>'required|numeric|min:0',
-            'chsemanalp'=>'required|numeric|min:0',
-            'chsemanalt'=>'required|numeric|min:0',
+            'chsemestral'=>'required|numeric',
+            'chsemanalt'=>'required|numeric',
+            'chsemanalp'=>'required|numeric|qtdAula:chsemestral,chsemanalt',
             'departamento_id' => 'required|exists:departamentos,id',
         ];
     }
@@ -43,17 +43,17 @@ class UpdateDisciplinaRequest extends FormRequest
             'nome.max' => 'O campo :attribute atingiu o limite de caracteres.',
             'name.required' => 'O campo :attribute é obrigatório.',
             'name.max' => 'O campo :attribute atingiu o limite de caracteres.',
+
             'chsemestral.required'=> 'O campo :attribute é obrigatório.',
             'chsemestral.numeric'=> 'O campo :attribute não é do tipo numérico.',
-            'chsemestral.min'=> 'Número inválido',
+            
+            'chsemanalt.required'=> 'O campo :attribute é obrigatório.',
+            'chsemanalt.numeric'=> 'O campo :attribute não é do tipo numérico.',
 
             'chsemanalp.required'=> 'O campo :attribute é obrigatório.',
             'chsemanalp.numeric'=> 'O campo :attribute não é do tipo numérico.',
-            'chsemanalp.min'=> 'Número inválido',
+            'chsemanalp.qtd_aula'=> 'A quantidade de aulas semanais se encontra inválida.',
 
-            'chsemanalt.required'=> 'O campo :attribute é obrigatório.',
-            'chsemanalt.numeric'=> 'O campo :attribute não é do tipo numérico.',
-            'chsemanalt.min'=> 'Número inválido',
             'departamento_id.required' => 'O departamento não foi selecionado corretamente',
             'departamento_id.exists' => 'Departamento inexistente.',
         ];

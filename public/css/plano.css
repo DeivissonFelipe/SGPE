@@ -3,12 +3,10 @@
 table{
     border-collapse: collapse;
     width: 100%;
-    text-align: center;   
 }
 
 td, th{
     border: 1px solid black;
-    text-align: center;
     padding: 10px;
 }
 
@@ -39,6 +37,9 @@ img {
 }
 
 /* ---------------------------------- */
+.text-center{
+    text-align: center;
+}
 .pull-left{
     text-align: left;
 }

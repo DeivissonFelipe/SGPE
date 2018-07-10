@@ -23,7 +23,11 @@
     <small>View</small>
 </h1>
 
-{!! Breadcrumbs::render('planoId', $plano) !!}
+@can('owner', $plano)
+    {!! Breadcrumbs::render('planoId', $plano) !!}
+@else
+    {!! Breadcrumbs::render('show', $plano) !!}
+@endcan
 
 @endsection
 
@@ -78,9 +82,9 @@
     <!-- MENU -->
     <div class="col-md-8 col-md-offset-2">
         <div class="btn-group btn-group-justified" role="group" arial-label="menu" style="margin-bottom:1px">
-            @can('owner', $plano)
+            @can('update', $plano)
             <div class="btn-group" style="border:1px solid white">
-                <a class="btn btn-app btn-ufop" href="/planos/{{$plano->id}}/edit" data-toggle="tooltip" title="Edite as informações do plano"><i class="fa fa-edit"></i> Editar</a>
+                <a class="btn btn-app btn-ufop" href="/planos/{{$plano->id}}/edit_dados" data-toggle="tooltip" title="Edite as informações do plano"><i class="fa fa-edit"></i> Editar</a>
             </div>
             @if($plano->status =="Em Edição")
                 <div class="btn-group" style="border:1px solid white">
@@ -89,14 +93,12 @@
             @endif
             @endcan
             <div class="btn-group" style="border:1px solid white">
-                <a class="btn btn-app btn-ufop" href="/planos/{{$plano->id}}/export" data-toggle="tooltip" title="Exporte os dados deste plano de ensino para um plano seu."><i class="fa fa-external-link"></i> Exportar</a>
+                <a class="btn btn-app btn-ufop" href="/planos/{{$plano->id}}/export" data-toggle="tooltip" title="Exporte os dados deste plano de ensino para um plano seu."><i class="fa fa-clone"></i> Exportar</a>
             </div>
             <div class="btn-group" style="border:1px solid white">
-                <a class="btn btn-app btn-ufop" href="{{ route('pdf2', array('id' => $plano->id)) }}" target="_blank" data-toggle="tooltip" id="visu" title="Expandir a tela com os dados do plano"><i class="fa fa-expand" aria-hidden="true"></i> Expandir</a>
+                <a class="btn btn-app btn-ufop" href="{{ route('expandir', array('id' => $plano->id)) }}" target="_blank" data-toggle="tooltip" id="visu" title="Expandir a tela com os dados do plano"><i class="fa fa-expand" aria-hidden="true"></i> Expandir</a>
             </div>
-            <!-- <div class="btn-group" style="border:1px solid white">
-                <a class="btn btn-app btn-ufop" href="{{ route('pdf', array('id' => $plano->id)) }}" target="_blank" data-toggle="tooltip" title="Gerar um pdf"><i class="fa fa-file-pdf-o"></i> PDF</a>
-            </div> -->
+            
         </div>
     </div>
 
@@ -107,13 +109,13 @@
                 <div class="table-responsive">
                     <table id="ctitle">
                         <tr>
-                            <td id="rep" width="20%">
+                            <td class="text-center" id="rep" width="20%">
                                 <img src="{{URL::asset('/img/Republica-logo.jpeg')}}" alt="logo republica federativa do brasil">
                             </td>
-                            <td id="text" width="60%" colspan="2">
+                            <td class="text-center" id="text" width="60%" colspan="2">
                                 <h4>UNIVERSIDADE FEDERAL DE OURO PRETO <br>PRÓ-REITORIA DE GRADUAÇÃO<br>PLANO DE ENSINO</h4>
                             </td>
-                            <td id="ufop" width="20">
+                            <td class="text-center" id="ufop" width="20">
                                 <img src="{{URL::asset('/img/Logomarca-min.jpg')}}" alt="logo ufop">
                                 
                             </td>
@@ -123,7 +125,7 @@
             </div><!-- end box-header -->
             
             <div class="box-body">
-                <div class="table-responsive">
+                <div class="table-responsive text-center">
                     <table>
                         <tr>
                             <td colspan="3" width =75% >
@@ -152,7 +154,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive text-center">
                     <table>
                         <tr>
                             <td colspan="5">
@@ -190,47 +192,53 @@
                 <div class="table-responsive">
                     <table>
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Data de aprovação na assembléia departamental: {!!$plano->aprovacao!!}</div>
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Ementa: </div><br>
-                                {!!$plano->ementa!!}
+                                {!!$plano->turma->disciplina->ementa!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Conteúdo programático: </div><br>
-                                {!!$plano->conteudo!!}
+                                {!!$plano->turma->disciplina->conteudo!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Objetivos: </div><br>
                                 {!!$plano->objetivo!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Metodologia: </div><br>
                                 {!!$plano->metodologia!!}
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div class="pull-left">Atividades avaliativas: </div><br>
+                                {!!$plano->avaliacao!!}
+                            </td>
+                        </tr>
                     </table>
-                </div>
+                </div><br>
                 <div class="cronograma">
                     <div class="pull-left">
                         Cronograma:
                     </div><br>
                     <h4 class="margembZero">Critérios de Avaliação</h4>
                     <div class="table-responsive">
-                        <table class="margemtZero margembZero" id="table">
+                        <table class="margemtZero margembZero text-center" id="table">
                             <thead>
                                 <tr>
                                     <th>Descrição da avaliação</th>
@@ -252,7 +260,7 @@
                         </table>
                     </div>
                     <div class="table-responsive">
-                        <table class="margemtZero">
+                        <table class="margemtZero text-center">
                             @if(count($plano->observacoes))
                                 <tr>
                                     <td colspan="5">
@@ -267,7 +275,7 @@
 
                     <h4>Planejamento das Aulas (sujeito a mudanças no decorrer do semestre)</h4>
                     <div class="table-responsive">
-                        <table>
+                        <table class="text-center">
                             <thead>
                                 <tr>
                                     <th>Aula</th>
@@ -293,7 +301,7 @@
                     @else
                         <h4>Planejamento das Aulas (sujeito a mudanças no decorrer do semestre)</h4>
                         <div class="table-responsive">
-                            <table>
+                            <table class="text-center">
                                 <thead>
                                     <tr>
                                         <th>Unidade</th>
@@ -319,14 +327,15 @@
                         <tr>
                             <td colspan="5">
                                 <div class="pull-left">Bibliografia Básica:</div><br><br>
-                                <div class="pull-left">{!!$plano->bibliografiab!!}</div>
+                                <div class="pull-left">{!!$plano->turma->disciplina->bibliografiab!!}</div>
+                                
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="5">
                                 <div class="pull-left">Bibliografia Complementar:</div><br><br>
-                                <div class="pull-left">{!!$plano->bibliografiac!!}</div>
+                                <div class="pull-left">{!!$plano->turma->disciplina->bibliografiac!!}</div>
                             </td>
                         </tr>
                     </table>

@@ -15,11 +15,11 @@ class CreatePlanAulaTable extends Migration
     {
         Schema::create('planejamento_aulas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('aula');
+            $table->unsignedInteger('aula');
             $table->string('tipo', 10);
-            $table->date('data');
+            $table->date('data')->nullable();
             $table->string('conteudo');
-            $table->integer('plano_id')->unsigned();
+            $table->unsignedInteger('plano_id');
             $table->timestamps();
         });
     }

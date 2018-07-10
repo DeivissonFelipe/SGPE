@@ -99,7 +99,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</div><!-- end input-group-addon -->
-									<input type="text" class="form-control pull-right datepicker-me" data-placement="right" id="data" name="data">
+									<input type="text" class="form-control pull-right datepicker-me" data-placement="right" id="data" name="data" required>
 								</div><!-- end input-group date datepicker-me -->
 							</div><!-- end form-group -->
 						</div>

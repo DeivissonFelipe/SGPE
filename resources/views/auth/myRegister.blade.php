@@ -63,16 +63,6 @@
 					</div><!-- end form-group has-feedback -->
 
 					<div class="form-group has-feedback">
-						<span class="glyphicon glyphicon-education form-control-feedback"></span>
-						<input type="text" class="form-control" placeholder="Matricula" name="matricula" value="{{ old('matricula') }}" required>
-						@if ($errors->has('matricula'))
-				            <span class="help-block">
-				                <strong>{{ $errors->first('matricula') }}</strong>
-				            </span>
-				        @endif
-					</div><!-- end form-group has-feedback -->
-
-					<div class="form-group has-feedback">
 						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 						<input type="password" class="form-control" placeholder="Senha" name="password" required>
 						@if ($errors->has('password'))

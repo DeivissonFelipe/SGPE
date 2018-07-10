@@ -17,17 +17,14 @@ class CreatePlanosTable extends Migration
             $table->increments('id');
             $table->date('aprovacao')->nullable();
             $table->string('status');
-            $table->integer('tipo')->nullable();
-            $table->integer('turma_id')->unsigned();
+
+            $table->unsignedInteger('tipo');
+            $table->unsignedInteger('turma_id');
             
-            $table->text('ementa')->nullable();
-            $table->text('conteudo')->nullable();
             $table->text('objetivo')->nullable();
             $table->text('metodologia')->nullable();
             $table->text('avaliacao')->nullable();
             $table->text('observacoes')->nullable();
-            $table->text('bibliografiab')->nullable();
-            $table->text('bibliografiac')->nullable();
             $table->timestamps(); 
         });
     }

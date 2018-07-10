@@ -30,13 +30,13 @@
                 <div class="table-responsive">
                     <table id="ctitle">
                         <tr>
-                            <td id="rep" width="20%">
+                            <td class="text-center" id="rep" width="20%">
                                 <img src="{{URL::asset('/img/Republica-logo.jpeg')}}" alt="logo republica federativa do brasil">
                             </td>
-                            <td id="text" width="60%" colspan="2">
+                            <td class="text-center" id="text" width="60%" colspan="2">
                                 <h4>UNIVERSIDADE FEDERAL DE OURO PRETO <br>PRÓ-REITORIA DE GRADUAÇÃO<br>PLANO DE ENSINO</h4>
                             </td>
-                            <td id="ufop" width="20">
+                            <td class="text-center" id="ufop" width="20">
                                 <img src="{{URL::asset('/img/Logomarca-min.jpg')}}" alt="logo ufop">
                                 
                             </td>
@@ -46,7 +46,7 @@
             </div><!-- end box-header -->
             
             <div class="box-body">
-                <div class="table-responsive">
+                <div class="table-responsive text-center">
                     <table>
                         <tr>
                             <td colspan="3" width =75% >
@@ -75,7 +75,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive text-center">
                     <table>
                         <tr>
                             <td colspan="5">
@@ -113,53 +113,59 @@
                 <div class="table-responsive">
                     <table>
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Data de aprovação na assembléia departamental: {!!$plano->aprovacao!!}</div>
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Ementa: </div><br>
-                                {!!$plano->ementa!!}
+                                {!!$plano->turma->disciplina->ementa!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Conteúdo programático: </div><br>
-                                {!!$plano->conteudo!!}
+                                {!!$plano->turma->disciplina->conteudo!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Objetivos: </div><br>
                                 {!!$plano->objetivo!!}
                             </td>
                         </tr>
 
                         <tr>
-                            <td colspan="5">
+                            <td>
                                 <div class="pull-left">Metodologia: </div><br>
                                 {!!$plano->metodologia!!}
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div class="pull-left">Atividades avaliativas: </div><br>
+                                {!!$plano->avaliacao!!}
+                            </td>
+                        </tr>
                     </table>
-                </div>
+                </div><br>
                 <div class="cronograma">
                     <div class="pull-left">
                         Cronograma:
                     </div><br>
                     <h4 class="margembZero">Critérios de Avaliação</h4>
                     <div class="table-responsive">
-                        <table class="margemtZero margembZero" id="table">
+                        <table class="margemtZero margembZero text-center" id="table">
                             <thead>
                                 <tr>
                                     <th>Descrição da avaliação</th>
                                     <th>Peso da avaliação (%)</th>
-                                    <th>Data</th>
-                                    <th>Conteúdo avaliado</th>
+                                    <th width="20%">Data</th>
+                                    <th width="60%">Conteúdo avaliado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -175,7 +181,7 @@
                         </table>
                     </div>
                     <div class="table-responsive">
-                        <table class="margemtZero">
+                        <table class="margemtZero text-center">
                             @if(count($plano->observacoes))
                                 <tr>
                                     <td colspan="5">
@@ -190,13 +196,13 @@
 
                     <h4>Planejamento das Aulas (sujeito a mudanças no decorrer do semestre)</h4>
                     <div class="table-responsive">
-                        <table>
+                        <table class="text-center">
                             <thead>
                                 <tr>
                                     <th>Aula</th>
-                                    <th>Prática/Teórica</th>
-                                    <th>Data</th>
-                                    <th>Conteúdo Previsto</th>
+                                    <th>Prática/<br>Teórica</th>
+                                    <th width="20%">Data</th>
+                                    <th width="60%">Conteúdo Previsto</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,11 +218,11 @@
                         </table>
                         <p class="margemtZero pull-left"><strong><u>Atenção:</u></strong> No planejamento acima, cada "aula" corresponde a duas aulas de 50 minutos ou 1h 40 minutos.</p>
                     </div>
-                    
+                                        
                     @else
                         <h4>Planejamento das Aulas (sujeito a mudanças no decorrer do semestre)</h4>
                         <div class="table-responsive">
-                            <table>
+                            <table class="text-center">
                                 <thead>
                                     <tr>
                                         <th>Unidade</th>
@@ -236,22 +242,21 @@
                             </table>
                         </div>
                     @endif
-                    
                 </div><br>
-
                 <div class="table-responsive">
                     <table>
                         <tr>
-                            <td>
+                            <td colspan="5">
                                 <div class="pull-left">Bibliografia Básica:</div><br><br>
-                                <div class="pull-left">{!!$plano->bibliografiab!!}</div>
+                                <div class="pull-left">{!!$plano->turma->disciplina->bibliografiab!!}</div>
+                                
                             </td>
                         </tr>
 
                         <tr>
-                            <td>
+                            <td colspan="5">
                                 <div class="pull-left">Bibliografia Complementar:</div><br><br>
-                                <div class="pull-left">{!!$plano->bibliografiac!!}</div>
+                                <div class="pull-left">{!!$plano->turma->disciplina->bibliografiac!!}</div>
                             </td>
                         </tr>
                     </table>

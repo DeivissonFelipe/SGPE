@@ -10,7 +10,28 @@ use Carbon\Carbon;
 
 class ExameTest extends TestCase{
     use DatabaseTransactions;
-    
+
+    public function test_route_plano_exames(){
+        $user = factory(\App\User::class)->create();
+        $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Professor']));
+        
+        $curso = factory(\App\Curso::class)->create();
+        $departamento = factory(\App\Departamento::class)->create();
+        $semestre = factory(\App\Semestre::class)->create();
+        $disciplina = factory(\App\Disciplina::class)->create();
+
+        $turma = factory(\App\Turma::class)->create();
+        $turma->users()->attach($user);
+
+        $plano = factory(\App\Plano::class)->create([
+            'turma_id' => $turma->id
+        ]);
+
+        $response = $this->actingAs($user)->json('GET', 'planos/'. $plano->id . '/exames')
+                            ->assertStatus(200)
+                            ->assertViewIs('planos.partials-edit.exame')
+                            ->assertViewHas(['plano','semestre','diasNaoLetivos']);
+    }
     public function test_route_exame_store(){
         $user = factory(\App\User::class)->create();
         $user->roles()->attach(factory(\App\Role::class)->create(['name' => 'Professor']));
@@ -30,10 +51,17 @@ class ExameTest extends TestCase{
             'turma_id' => $turma->id
         ]);
         
+        foreach ([0=>"1", 1=>"3"] as $h) {
+            $horario = new \App\Horario;
+            $horario->turma_id = $turma->id;
+            $horario->dia = $h;
+            $horario->save();
+        }
+
         $exame = [
             'descricao' => 'Avaliação 1',
             'peso' => '20',
-            'data' => '2018-05-25',
+            'data' => '2018-05-23',
             'conteudo' => 'Todo conteúdo da aula 1 até a aula 20',
             'plano_id' => $plano->id
         ];
@@ -46,7 +74,7 @@ class ExameTest extends TestCase{
         $exame_retrieved = \App\Exame::get()->first();
         $this->assertEquals('Avaliação 1', $exame_retrieved->descricao);
         $this->assertEquals('20', $exame_retrieved->peso);
-        $this->assertEquals('25-05-2018', $exame_retrieved->data);
+        $this->assertEquals('23-05-2018', $exame_retrieved->data);
         $this->assertEquals('Todo conteúdo da aula 1 até a aula 20', $exame_retrieved->conteudo);
 
         $plano_retrieved = \App\Plano::find($plano->id);
@@ -71,10 +99,17 @@ class ExameTest extends TestCase{
             'turma_id' => $turma->id
         ]);
         
+        foreach ([0=>"1", 1=>"3"] as $h) {
+            $horario = new \App\Horario;
+            $horario->turma_id = $turma->id;
+            $horario->dia = $h;
+            $horario->save();
+        }
+
         $exame = factory(\App\Exame::class)->create([
             'descricao' => 'Avaliação 1',
             'peso' => '20',
-            'data' => '2018-05-25',
+            'data' => '2018-05-20',
             'conteudo' => 'Todo conteúdo da aula 1 até a aula 20',
             'plano_id' => $plano->id
         ]);
@@ -85,7 +120,7 @@ class ExameTest extends TestCase{
             'id' => $exame_id,
             'descricao' => 'Avaliação 2',
             'peso' => '30',
-            'data' => '2018-06-20',
+            'data' => '2018-05-23',
             'conteudo' => 'Todo conteúdo da aula 21 até a aula 36',
             'plano_id' => $plano->id
         ];
@@ -99,7 +134,7 @@ class ExameTest extends TestCase{
         $exame_retrieved = \App\Exame::get()->first();
         $this->assertEquals('Avaliação 2', $exame_retrieved->descricao);
         $this->assertEquals('30', $exame_retrieved->peso);
-        $this->assertEquals('20-06-2018', $exame_retrieved->data);
+        $this->assertEquals('23-05-2018', $exame_retrieved->data);
         $this->assertEquals('Todo conteúdo da aula 21 até a aula 36', $exame_retrieved->conteudo);
 
         $plano_retrieved = \App\Plano::find($plano->id);
@@ -139,5 +174,5 @@ class ExameTest extends TestCase{
             ->assertRedirect('/planos/'.$plano->id.'/exames');
         
         $this->assertDatabaseMissing('exames', ['id' => $exame_id]);
-    }
+    }   
 }

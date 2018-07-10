@@ -8,19 +8,13 @@
 	<div class="container-fluid">
 		<div class="btn-group btn-group-justified" role="group" arial-label="menu" style="margin-bottom:1px">
 			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop btn-edit"  href="/planos/{{$plano->id}}/aula">Horários</a>
+				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/planejamentos">Planejamento</a>
 			</div>
 			<div class="btn-group" style="border:1px solid white">
 				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/exames">Exames</a>
 			</div>
 			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/planejamentos">Planejamento</a>
-			</div>
-			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/bibliografias">Bibliografia</a>
-			</div>
-			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/ementas">Ementa</a>
+				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/avaliacoes">Atividades Avaliativas</a>
 			</div>
 		</div>
 		<div class="btn-group btn-group-justified" role="group" arial-label="menu">
@@ -28,13 +22,7 @@
 				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/metodologias">Metodologia</a>
 			</div>
 			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/conteudos">Conteúdo Programático</a>
-			</div>
-			<div class="btn-group" style="border:1px solid white">
 				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/objetivos">Objetivos</a>
-			</div>
-			<div class="btn-group" style="border:1px solid white">
-				<a class="btn btn-ufop" href="/planos/{{$plano->id}}/avaliacoes">Atividades Avaliativas</a>
 			</div>
 		</div> <br>
 

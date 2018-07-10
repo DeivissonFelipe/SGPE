@@ -22,4 +22,7 @@ class Feriado extends Model
          return Carbon::parse($value)->format('d-m-Y');
     }
 
+    // public function setDataAttribute($value){
+    //     $this->attributes['data'] = Carbon::createFromFormat('Y-m-d', $value);
+    // }
 }

@@ -43,7 +43,10 @@ class PlanoPolicy
      */
     public function update(User $user, Plano $plano)
     {
-        
+        $pUser = $user->turmas()->pluck('turma_id')->toArray();
+        $pTurma = $plano->turma_id;
+
+        return in_array($pTurma, $pUser) && ($plano->status == 'Em Edição');
     }
 
     /**
@@ -55,7 +58,10 @@ class PlanoPolicy
      */
     public function delete(User $user, Plano $plano)
     {
-        //
+        $pUser = $user->turmas()->pluck('turma_id')->toArray();
+        $pTurma = $plano->turma_id;
+
+        return in_array($pTurma, $pUser) && ($plano->status == 'Em Edição');
     }
     
     /**

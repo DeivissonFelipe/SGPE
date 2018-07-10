@@ -1,7 +1,7 @@
 @extends('layouts.adminlte')
 
 @push('tituloAba')
-	Turmas
+	Planos
 @endpush
 
 @push('css')
@@ -31,9 +31,6 @@
 	</script>
 
 	<script type="text/javascript">
-		// $(".selectMulti").select2({
-		// 	theme: "classic"	
-		// });
 		$(".select2").select2();
 	</script>
 @endpush
@@ -41,11 +38,11 @@
 @section('breadcrumb')
 
 <h1>
-	Turmas
+	Plano
 	<small>Criar</small>
 </h1>
 
-{!! Breadcrumbs::render('nturma') !!}
+{!! Breadcrumbs::render('nplano') !!}
 
 @endsection
 
@@ -55,10 +52,10 @@
 		<div class="box box-primary-ufop">
 
 			<div class="box-header with-border">
-				<h3 class="box-title">Criar nova Turma</h3>
+				<h3 class="box-title">Criar novo Plano</h3>
 			</div><!-- end box-header with-border -->
 
-			<form role="form" action="/turmas" method="post"> 
+			<form role="form" action="/planos" method="post"> 
 			
 				{{ csrf_field() }}
 				<div class="box-body">
@@ -66,25 +63,29 @@
 							<label>Professor</label>
 							<select class="form-control  select2 selectMulti" style="width: 100%;" tabindex="-1" aria-hidden="true" name="user_id[]" multiple="multiple">
 								@foreach($users as $u)
-								<option value="{{$u->id}}">{{$u->name}}</option>
+									@if($u->id == auth::user()->id)
+										<option value="{{$u->id}}" selected>{{$u->name}}</option>
+									@else
+										<option value="{{$u->id}}">{{$u->name}}</option>
+									@endif
 								@endforeach
 							</select>
 					</div><!-- end form-group -->
 
 					<div class="form-group">
 						<label>Disciplina</label>
-						<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" name="disciplina_id">
+						<select class="form-control select2" style="width: 100%;" tabindex="-1" aria-hidden="true" name="disciplina_id">
 							@foreach($disciplinas as $d)
-							<option value="{{$d->id}}">{{$d->nome}}</option>
+							<option value="{{$d->id}}" {{ old('disciplina_id') == $d->id ? 'selected' : '' }}>{{$d->nome}}</option>
 							@endforeach
 						</select>
 					</div><!-- end form-group -->
 
 					<div class="form-group">
 						<label>Semestre</label>
-						<select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="semestre_id">
+						<select class="form-control select2" style="width: 100%;" tabindex="-1" aria-hidden="true" name="semestre_id">
 							@foreach($semestres as $s)
-							<option value="{{$s->id}}">{{$s->rotulo}}</option>
+							<option value="{{$s->id}}" {{ old('semestre_id') == $s->id ? 'selected' : '' }}>{{$s->rotulo}}</option>
 							@endforeach
 						</select>
 					</div><!-- end form-group -->
@@ -93,13 +94,24 @@
 						<label>Curso</label>
 						<select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="curso_id">
 							@foreach($cursos as $c)
-							<option value="{{$c->id}}">{{$c->nome}}</option>
+							<option value="{{$c->id}}" {{ old('curso_id') == $c->id ? 'selected' : '' }}>{{$c->nome}}</option>
 							@endforeach
 						</select>
 					</div><!-- end form-group -->
 
 					<div class="form-group">
 							<label><input type="checkbox" name="tipo_turma" {{ old('tipo_turma') ? 'checked' : '' }} value="1"> Turma Extra</label>
+					</div><!-- end form-group -->
+
+					<hr>
+					<div class="form-group">
+						<label>Dias Lecionados</label><br><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(1, old('horario'))) ? ' checked' : '' }} value="1"> Segunda-Feira</label><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(2, old('horario'))) ? ' checked' : '' }} value="2"> Terça-Feira</label><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(3, old('horario'))) ? ' checked' : '' }} value="3"> Quarta-Feira</label><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(4, old('horario'))) ? ' checked' : '' }} value="4"> Quinta-Feira</label><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(5, old('horario'))) ? ' checked' : '' }} value="5"> Sexta-Feira</label><br>
+						<label><input type="checkbox" name="horario[]" {{ (is_array(old('horario')) and in_array(6, old('horario'))) ? ' checked' : '' }} value="6"> Sábado</label><br>
 					</div><!-- end form-group -->
 
 				</div><!-- end box-body -->
@@ -113,4 +125,4 @@
 			
 	</div><!-- end col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 -->
 </div><!-- end row -->
-@endsection	
+@endsection	 

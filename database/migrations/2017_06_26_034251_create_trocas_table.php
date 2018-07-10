@@ -17,7 +17,7 @@ class CreateTrocasTable extends Migration
             $table->increments('id');
             $table->date('dia')->unique();
             $table->string('substituicao', 20);
-            $table->integer('semestre_id')->unsigned();
+            $table->unsignedInteger('semestre_id');
             $table->timestamps();
         });
     }

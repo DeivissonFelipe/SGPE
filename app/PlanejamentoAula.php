@@ -17,6 +17,6 @@ class PlanejamentoAula extends Model
 
     public function getDataAttribute($value)
     {
-         return Carbon::parse($value)->format('d-m-Y');
+        return ($value == null) ? null : Carbon::parse($value)->format('d-m-Y');
     }
 }

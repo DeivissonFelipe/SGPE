@@ -15,11 +15,11 @@ class CreateTurmasTable extends Migration
     {
         Schema::create('turmas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('disciplina_id')->unsigned();
-            $table->integer('semestre_id')->unsigned();
-            $table->integer('curso_id')->unsigned();
-            $table->integer('tipo_turma')->unsigned();
-            $table->integer('numero_turma')->nullable();
+            $table->unsignedInteger('disciplina_id');
+            $table->unsignedInteger('semestre_id');
+            $table->unsignedInteger('curso_id');
+            $table->unsignedInteger('tipo_turma');
+            $table->unsignedInteger('numero_turma');
             $table->timestamps();
         });
     }

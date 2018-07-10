@@ -23,7 +23,7 @@
             selector: '.textareaTinymce',          
             menubar: false,
             plugins: "advlist lists autolink link autosave save charmap hr searchreplace table",
-
+            
             toolbar1: 'undo redo | restoredraft | link unlink | table subscript superscript charmap blockquote hr searchreplace',
             toolbar2: 'styleselect | bold italic strikethrough | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | fontselect fontsizeselect | removeformat',
             

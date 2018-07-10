@@ -41,6 +41,7 @@
 								<td>{{ $d->codigo}}</td>
 								<td>{{ $d->nome}}</td>
 								<td>{{ $d->Departamento->sigla}}</td>
+                                <td><a class="btn btn-ufop" href="/disciplinas/{{$d->id}}/info"><i class="fa fa-plus"></i> info</a></td>
 								<td><a class="btn btn-ufop" href="/disciplinas/{{$d->id}}/edit"><i class="fa fa-pencil"></i> Editar</a></td>
 								<td>
                                     <form method="post" action="/disciplinas/{{ $d->id }}">
@@ -49,6 +50,9 @@
                                         <button class="confirm_delete btn btn-ufop " data-toggle="modal" data-target="#confirm" type="button"><i class="fa fa-trash"></i> Apagar</buttom>
                                     </form>
 								</td>
+                                @if(empty($d->ementa)  || empty($d->conteudo) || empty($d->bibliografiab) || empty($d->bibliografiac))
+                                    <td class="warning"><a href="/disciplinas/{{$d->id}}/info">Incompleto</a></td>
+                                @endif
 							</tr>
 							@endforeach
                         </tbody>

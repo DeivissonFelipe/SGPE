@@ -8,7 +8,7 @@ class Disciplina extends Model
 {
 	protected $fillable = [
     	'codigo', 'nome', 'name', 'departamento_id', 'chsemestral',
-        'chsemanalp', 'chsemanalt'
+        'chsemanalp', 'chsemanalt','ementa', 'conteudo','bibliografiab', 'bibliografiac'
 	];
 
 	public function departamento(){
@@ -20,6 +20,7 @@ class Disciplina extends Model
 	}
 
 	public function cursos(){
-        return $this->belongsToMany('App\Curso', 'disciplina_curso', 'disciplina_id', 'curso_id');
-    }
+        	return $this->belongsToMany('App\Curso', 'disciplina_curso', 'disciplina_id', 'curso_id');
+	}
+	
 }

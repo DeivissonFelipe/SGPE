@@ -17,7 +17,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'matricula' => $faker->randomNumber(6),
         'remember_token' => str_random(10),
     ];
 });
@@ -58,6 +57,10 @@ $factory->define(App\Disciplina::class, function (Faker\Generator $faker) {
         'chsemestral' => $faker->numberBetween('1', '72'),
         'chsemanalp' => $faker->numberBetween('1', '4'),
         'chsemanalt' => $faker->numberBetween('1', '4'),
+        'ementa' => $faker->text($maxNbChars = 200),
+        'conteudo' => $faker->text($maxNbChars = 200),
+        'bibliografiab' => $faker->text($maxNbChars = 200),
+        'bibliografiac' => $faker->text($maxNbChars = 200),
         'departamento_id' => $faker->randomElement($departamentos),
     ];
 });
@@ -84,12 +87,8 @@ $factory->define(App\Plano::class, function (Faker\Generator $faker) {
         'turma_id' => $faker->randomElement($turmas),
         'status' => 'Em Edição',
         'observacoes' => $faker->text($maxNbChars = 200),
-        'ementa' => $faker->text($maxNbChars = 200),
-        'conteudo' => $faker->text($maxNbChars = 200),
         'objetivo' => $faker->text($maxNbChars = 200),
         'metodologia' => $faker->text($maxNbChars = 200),
-        'bibliografiab' => $faker->text($maxNbChars = 200),
-        'bibliografiac' => $faker->text($maxNbChars = 200),
         'avaliacao' => $faker->text($maxNbChars = 200),
     ];
 });
@@ -124,19 +123,6 @@ $factory->define(App\Troca::class, function (Faker\Generator $faker) {
 });
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Atendimento::class, function(Faker\Generator $faker){
-    $dias = ['Segunda-Feira','Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira'];
-    $planos = App\Plano::pluck('id')->toArray();
-    return [
-        'dia' => $faker->randomElement($dias),
-        'inicio' => $faker->time($format = 'H:i'),
-        'fim' => $faker->time($format = 'H:i'),
-        'sala' => $faker->word,
-        'plano_id' => $faker->randomElement($planos),
-    ];
-});
-
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Exame::class, function (Faker\Generator $faker) {
     $planos = App\Plano::pluck('id')->toArray();
     return [
@@ -148,16 +134,6 @@ $factory->define(App\Exame::class, function (Faker\Generator $faker) {
     ];
 });
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Horario::class, function (Faker\Generator $faker) {
-    $planos = App\Plano::pluck('id')->toArray();
-    return [
-        'dia' => $faker->dateTimeBetween('now', '+2 years'),
-        'inicio' => $faker->time($format = 'H:i'),
-        'fim' => $faker->time($format = 'H:i'),
-        'plano_id' => $faker->randomElement($planos),
-    ];
-});
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Pendencia::class, function (Faker\Generator $faker) {

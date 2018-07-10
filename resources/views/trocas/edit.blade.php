@@ -32,8 +32,8 @@
 				dateFormat: 'dd-mm-yy',
 				beforeShowDay: function(date) {
 					var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-					var fimSemana = jQuery.datepicker.noWeekends(date);	
-					return fimSemana[0] ? [$.inArray(string, diasNaoLetivos) == -1] : fimSemana[0];
+					var day = date.getDay();
+					return (day != 0) ? [$.inArray(string, diasNaoLetivos) == -1] : [false];
         		}
 			});
 		});
@@ -61,12 +61,18 @@
 					dateFormat: 'dd-mm-yy',
 					beforeShowDay: function(date) {
 						var string = jQuery.datepicker.formatDate('dd-mm-yy', date);
-						var fimSemana = jQuery.datepicker.noWeekends(date);	
-						return fimSemana[0] ? [$.inArray(string, data.diasNaoLetivos) == -1] : fimSemana[0];
+						var day = date.getDay();
+						return (day != 0) ? [$.inArray(string, data.diasNaoLetivos) == -1] : [false];
 					}
 				});
 			});
 		});
+	</script>
+	<!-- Select2 v4.0.5-->
+	<script src="{{ asset ('/bower_components/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{ asset ('/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+	<script type="text/javascript">
+		$(".select2").select2();
 	</script>
 @endpush
 

@@ -16,7 +16,7 @@ class CreatePendenciasTable extends Migration
         Schema::create('pendencias', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('plano_id')->unsigned();
+            $table->unsignedInteger('plano_id');
             $table->text('pendencia');
         });
     }

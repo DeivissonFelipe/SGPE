@@ -103,7 +103,6 @@
 									</div><!-- end input-group-addon -->
 									<input type="text" class="form-control pull-right date datepicker-me" id="data" name="data" value="{{$feriado->data}}">
 								</div><!-- end input-group -->
-								<input type="text" name="semestre_id" value="1" hidden>
 							</div><!-- end form-group -->
 						</div>
 					</div><!-- end box-body -->

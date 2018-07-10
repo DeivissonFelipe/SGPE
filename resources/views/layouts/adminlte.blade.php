@@ -113,6 +113,7 @@
             </div><!-- end content-wrapper -->
 
             @include('layouts.footer')
+            
         </div><!-- end wrapper -->
         
         

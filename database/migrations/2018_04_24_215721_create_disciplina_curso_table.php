@@ -16,8 +16,8 @@ class CreateDisciplinaCursoTable extends Migration
         Schema::create('disciplina_curso', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('disciplina_id')->unsigned();
-            $table->integer('curso_id')->unsigned();
+            $table->unsignedInteger('disciplina_id');
+            $table->unsignedInteger('curso_id');
         });
     }
 

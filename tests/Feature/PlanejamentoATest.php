@@ -30,6 +30,13 @@ class PlanejamentoATest extends TestCase{
             'turma_id' => $turma->id
         ]);
 
+        foreach ([0=>"1", 1=>"3"] as $h) {
+            $horario = new \App\Horario;
+            $horario->turma_id = $turma->id;
+            $horario->dia = $h;
+            $horario->save();
+        }
+
         $planejamento = [
             'aula' => '1',
             'tipo' => 'T',
@@ -70,6 +77,13 @@ class PlanejamentoATest extends TestCase{
             'turma_id' => $turma->id
         ]);
 
+        foreach ([0=>"1", 1=>"3"] as $h) {
+            $horario = new \App\Horario;
+            $horario->turma_id = $turma->id;
+            $horario->dia = $h;
+            $horario->save();
+        }
+
         $planejamento = factory(\App\PlanejamentoAula::class)->create([
             'aula' => '1',
             'tipo' => 'T',
@@ -83,7 +97,7 @@ class PlanejamentoATest extends TestCase{
         $planejamento_edited = [
             'aula' => '2',
             'tipo' => 'P',
-            'data' => '2018-03-13',
+            'data' => '2018-03-14',
             'conteudo' => 'Conteudo da aula 2',
             'plano_id' => $plano->id
         ];
@@ -95,7 +109,7 @@ class PlanejamentoATest extends TestCase{
         $plan_retrieved = \App\PlanejamentoAula::get()->first();
         $this->assertEquals('2', $plan_retrieved->aula);
         $this->assertEquals('P', $plan_retrieved->tipo);
-        $this->assertEquals('13-03-2018', $plan_retrieved->data);
+        $this->assertEquals('14-03-2018', $plan_retrieved->data);
         $this->assertEquals('Conteudo da aula 2', $plan_retrieved->conteudo);
 
         $plano_retrieved = \App\Plano::find($plano->id);
